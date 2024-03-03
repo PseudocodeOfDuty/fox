@@ -96,6 +96,8 @@ def solve_ml_medium(input: list) -> int:
 
 def solve_sec_medium(input: torch.Tensor) -> str:
     img = torch.tensor(input)
+    if img.dim() == 3:
+        img = img.unsqueeze(0)
     return decode(img)
 
 
@@ -151,7 +153,7 @@ def solve_problem_solving_hard(input: tuple) -> int:
 
 
 riddle_solvers = {
-    "problem_solving~_easy": solve_problem_solving_easy,
+    "problem_solving_easy": solve_problem_solving_easy,
     "problem_solving_medium": solve_problem_solving_medium,
     "problem_solving_hard": solve_problem_solving_hard,
     # "cv_easy": solve_cv_easy,

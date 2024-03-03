@@ -5,7 +5,7 @@ import joblib
 
 class ml_easy:
     # Load the model
-    def load_model(self, model_filename="ml/forecasting_model.joblib"):
+    def load_model(self, model_filename="riddles/ml/forecasting_model.joblib"):
         return joblib.load(model_filename)
 
     # Forecast future values

@@ -10,7 +10,7 @@ import matplotlib.pyplot as plt
 from math import sqrt
 
 print("......................testing cv easy..........................")
-img = cv2.imread("./cv/shredded.jpg")
+img = cv2.imread("./riddles/cv/shredded.jpg")
 test_case = (img.tolist(), 64)
 
 res = solve_cv_easy(test_case)
@@ -18,9 +18,9 @@ print(type(res))  # should be list
 print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 
 print("......................testing cv medium..........................")
-rgb_template = cv2.imread("./cv/patch.png")
-rgb_target = cv2.imread("./cv/large.png")
-real_image = cv2.imread("./cv/real.png")
+rgb_template = cv2.imread("./riddles/cv/patch.png")
+rgb_target = cv2.imread("./riddles/cv/large.png")
+real_image = cv2.imread("./riddles/cv/real.png")
 input = (list(rgb_target), list(rgb_template))
 
 res = solve_cv_medium(input)
@@ -44,13 +44,13 @@ print("......................testing cv hard..........................")
 # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 
 print("......................testing ML easy..........................")
-input = pd.read_csv("ml/series_data.csv")
+input = pd.read_csv("riddles/ml/series_data.csv")
 
 res = solve_ml_easy(input)
 print(type(res))  # should be list
 print(len(res))  # should be list
 print(res)  # should be list of 30 days forecasting --> acceptance <= 35
-with open("ml/result.txt", "r") as file:
+with open("riddles/ml/result.txt", "r") as file:
     content = file.read()
     # Extract values from the content string
     actual = [
@@ -78,7 +78,7 @@ preprocess = transforms.Compose(
 )
 image_tensor = preprocess(image)
 print(type(image_tensor))
-image_tensor = image_tensor.unsqueeze(0)  # Could be added to function
+# image_tensor = image_tensor.unsqueeze(0)  # Could be added to function
 result = solve_sec_medium(image_tensor)
 print(type(result))
 print(result)
