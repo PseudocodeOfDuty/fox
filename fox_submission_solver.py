@@ -1,9 +1,9 @@
 import requests
 import numpy as np
-from fox_helper_functions import *
-from fox_classes import *
+from fox.fox_helper_functions import *
+from fox.fox_classes import *
 import random
-# from riddle_solvers import riddle_solvers
+from riddle_solvers import riddle_solvers
 
 API = 'http://3.70.97.142:5000'
 TEAM_ID = 'BFhxJPg'
@@ -137,7 +137,7 @@ def solve_riddle(team_id, solution):
         print("Error:", response.status_code)
         return None
 
-def send_message(team_id, messages, message_entities=['F', 'E', 'R']):
+def send_message(team_id, messages, message_entities):
     '''
     Use this function to call the api end point to send one chunk of the message. 
     You will need to send the message (images) in each of the 3 channels along with their entites.
