@@ -209,20 +209,21 @@ def submit_fox_attempt(team_id):
             2.b. You cannot send 3 E(Empty) messages, there should be atleast R(Real)/F(Fake)
         3. Refer To the documentation to know more about the API handling 
     '''
-    riddlesId = ['problem_solving_easy','problem_solving_medium','problem_solving_hard','sec_medium_stegano','ml_medium','sec_hard','ml_easy','cv_easy','cv_medium','cv_hard']
-    message, image_carrier = init_fox(team_id)
-    count = 0
-    while count <= 4:
-        testcase = get_riddle(team_id, riddlesId[count])
-        if testcase is None:
-            continue
-        else :
-            solution = riddle_solvers[riddlesId[count]](testcase)
-            solve_riddle(team_id, solution)
-        count += 1
+    riddles_ids = riddle_solvers.keys()
+    print(riddles_ids)
+    # message, image_carrier = init_fox(team_id)
+    # count = 0
+    # while count <= 4:
+    #     testcase = get_riddle(team_id, riddlesId[count])
+    #     if testcase is None:
+    #         continue
+    #     else :
+    #         solution = riddle_solvers[riddlesId[count]](testcase)
+    #         solve_riddle(team_id, solution)
+    #     count += 1
 
-    generate_message_array(message, image_carrier)
-    end_fox(team_id)
+    # generate_message_array(message, image_carrier)
+    # end_fox(team_id)
 
 
-# submit_fox_attempt(team_id)
+# submit_fox_attempt(TEAM_ID)
