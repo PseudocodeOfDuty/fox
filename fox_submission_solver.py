@@ -28,6 +28,8 @@ def init_fox(team_id):
             response_json = response.json()
             message = response_json["msg"]
             image_carrier = response_json["carrier_image"]
+            print(f"msg {message}")
+            print(f"carrier {message}")
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
