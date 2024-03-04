@@ -4,6 +4,7 @@ from fox_data.fox_classes import *
 import random
 from riddle_solvers import riddle_solvers
 import time
+import numpy as np
 
 
 API = "http://3.70.97.142:5000"
@@ -29,9 +30,9 @@ def init_fox(team_id):
         try:
             response_json = response.json()
             message = response_json["msg"]
-            image_carrier = response_json["carrier_image"]
-            print(f"msg {message}")
-            print(f"carrier {image_carrier}")
+            image_carrier = np.array(response_json["carrier_image"])
+            print(f"msg: {message}")
+            # print(f"carrier {image_carrier}")
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
@@ -73,7 +74,7 @@ def generate_message_array(real_msg, image_carrier):
     for i in range(PROTOCOL_LENGTH):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
-        print([decode(m) for m in msgs_channel])
+        print([decode(np.array(m)) for m in msgs_channel])
         print(entities_channel)
         while True:
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
@@ -236,8 +237,8 @@ def submit_fox_attempt(team_id):
     message, image_carrier = init_fox(team_id)
     for riddle_id, solver in riddle_solvers.items():
         testcase = get_riddle(team_id, riddle_id)
-        if riddle_id!="cv_medium" and riddle_id!="sec_medium_stegano":
-            print(f"Riddle {riddle_id}: {testcase}")
+        # if riddle_id!="cv_medium" and riddle_id!="sec_medium_stegano":
+        #     print(f"Riddle {riddle_id}: {testcase}")
         if testcase is None:
             continue
         else:
@@ -248,8 +249,8 @@ def submit_fox_attempt(team_id):
                 print("Error parsing response in send message:", e)
                 return None
             ed = time.time()
-            if riddle_id!="cv_medium":
-                print(f"Riddle {riddle_id}: {solution}")
+            # if riddle_id!="cv_medium":
+            #     print(f"Riddle {riddle_id}: {solution}")
             print(f"Solved {riddle_id} in {ed-st} seconds")
             response = solve_riddle(team_id, solution)
             print(f"Response {riddle_id}: {response}")
@@ -259,6 +260,4 @@ def submit_fox_attempt(team_id):
     print(f"Sent msgs in {ed-st} seconds")
     end_fox(team_id)
 
-# end_fox(TEAM_ID)
-
-submit_fox_attempt(TEAM_ID)
+# submit_fox_attempt(TEAM_ID)

@@ -28,7 +28,7 @@ class EncodedMSG:
 
     @staticmethod
     def extractMSGs(channel_msgs):
-        return [cm.msg() for cm in channel_msgs]
+        return [cm.msg().tolist() for cm in channel_msgs]
     
     @staticmethod
     def extractEntities(channel_msgs):
