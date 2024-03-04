@@ -12,20 +12,15 @@ import requests
 import unittest
 import time
 
-
-# print("......................testing cv easy..........................")
-# img = cv2.imread("./riddles/cv/medium/shredded.jpg")
-# test_case = (img.tolist(), 64)
-# res = solve_cv_easy(test_case)
-# print(type(res))  # should be list
-# print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
-
-
-# print("......................testing cv hard..........................")
-# # res = solve_cv_medium(input)
-# # print(type(res))  # should be int
-# # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 class TestCVFunctions(unittest.TestCase):
+    def test_solve_cv_easy(self):
+        image_path = "./riddles/cv/easy/shredded.jpg"
+        img = cv2.imread(image_path)
+        st = time.time()
+        res = solve_cv_easy((img,64))
+        ed = time.time()
+        print(f"test_solve_cv_easy time: {ed-st}")
+        self.assertEqual(res,[0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2])
 
     def test_solve_cv_medium(self):
         rgb_template = cv2.imread("./riddles/cv/medium/patch.png")

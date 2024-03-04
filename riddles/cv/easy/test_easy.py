@@ -1,6 +1,6 @@
 import cv2
 
-from reconst_2d import reconstructor as r
+from riddles.cv.easy.cv_easy_class import Reconstructor as r
 
 # Read the image
 image_path = "./riddles/cv/easy/shredded.jpg"
@@ -14,4 +14,4 @@ roro = r()
 print(roro.solve(img))
 
 #Expected: [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2]
-#Output:   [0, 2, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10]
+#Output:   [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2]
