@@ -8,31 +8,37 @@ from PIL import Image
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 from math import sqrt
-import requests
+from PIL import Image
 import unittest
 import time
+import os
+import joblib
+from PIL import Image
+from transformers import ViltForQuestionAnswering
+
+if os.name == "nt":
+    MODEL_PATH = "riddles/ml/AdaBoostModel_win.joblib"
+elif os.name == "posix":
+    MODEL_PATH = "riddles/ml/AdaBoostModel_linux.joblib"
+else:
+    raise ValueError("Unsupported operating system")
+loaded_processor_cv_hard = joblib.load("riddles/cv/hard/vqa_processor.joblib")
+loaded_model_cv_hard = ViltForQuestionAnswering.from_pretrained(
+    "riddles/cv/hard/vqa_model"
+)
+loaded_model_ml_easy = joblib.load("riddles/ml/forecasting_model.joblib")
+loaded_model_ml_medium = joblib.load(MODEL_PATH)
 
 
-# print("......................testing cv easy..........................")
-# img = cv2.imread("./riddles/cv/shredded.jpg")
-# test_case = (img.tolist(), 64)
-# res = solve_cv_easy(test_case)
-# print(type(res))  # should be list
-# print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
-
-
-# print("......................testing cv hard..........................")
-# # res = solve_cv_medium(input)
-# # print(type(res))  # should be int
-# # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 class TestCVFunctions(unittest.TestCase):
 
     def test_solve_cv_medium(self):
-        rgb_template = cv2.imread("./riddles/cv/patch.png")
-        rgb_target = cv2.imread("./riddles/cv/large.png")
-        real_image = cv2.imread("./riddles/cv/real.png")
 
-        input_data = (list(rgb_target), list(rgb_template))
+        rgb_template = Image.open("./riddles/cv/patch.png")
+        rgb_target = Image.open("./riddles/cv/large.png")
+        real_image = Image.open("./riddles/cv/real.png")
+
+        input_data = (np.array(rgb_target).tolist(), np.array(rgb_template).tolist())
 
         st = time.time()
         res = solve_cv_medium(input_data)
@@ -42,8 +48,8 @@ class TestCVFunctions(unittest.TestCase):
         res_np = np.array(res, dtype=np.uint8)
         self.assertIsInstance(res, list)  # Check if res is a list
         self.assertEqual(res_np.ndim, 3)  # Check if res is a 3D array
-        self.assertEqual(res_np.shape, rgb_target.shape)
-        self.assertGreaterEqual(matching_degree(res_np, real_image), 0.85)
+        self.assertEqual(res_np.shape, np.array(rgb_target).shape)
+        self.assertGreaterEqual(matching_degree(res_np, np.array(real_image)), 0.85)
 
         # Plotting the result (uncomment if needed)
         # fig, axs = plt.subplots(1, 1)
@@ -52,6 +58,20 @@ class TestCVFunctions(unittest.TestCase):
         # axs.axis("off")
         # plt.show()
 
+    def test_solve_cv_hard(self):
+        img = Image.open("./riddles/cv/hard/images/cats.jpeg")
+        img_np = np.array(img)
+
+        input_data = ("How many dogs are in the image", img_np.tolist())
+
+        st = time.time()
+        res = solve_cv_hard(input_data, loaded_processor_cv_hard, loaded_model_cv_hard)
+        ed = time.time()
+        print(f"test_solve_cv_hard time: {ed-st}")
+
+        self.assertIsInstance(res, int)  # Check if res is a int
+        self.assertEqual(res, 2)
+
 
 class TestMLFunctions(unittest.TestCase):
 
@@ -59,7 +79,7 @@ class TestMLFunctions(unittest.TestCase):
         input_data = pd.read_csv("riddles/ml/series_data.csv")
 
         st = time.time()
-        res = solve_ml_easy(input_data)
+        res = solve_ml_easy(input_data, loaded_model_ml_easy)
         ed = time.time()
         print(f"test_solve_ml_easy time: {ed-st}")
 
@@ -83,7 +103,7 @@ class TestMLFunctions(unittest.TestCase):
         input_data = [0, 0]
 
         st = time.time()
-        res = solve_ml_medium(input_data)
+        res = solve_ml_medium(input_data, loaded_model_ml_medium)
         ed = time.time()
         print(f"test_solve_ml_medium time: {ed-st}")
 
@@ -97,9 +117,11 @@ class TestSecurityFunctions(unittest.TestCase):
     def test_solve_sec_medium(self):
         image_path = "SteganoGAN/sample_example/encoded.png"
         image = Image.open(image_path)
-        preprocess = transforms.Compose([
-            transforms.ToTensor(),
-        ])
+        preprocess = transforms.Compose(
+            [
+                transforms.ToTensor(),
+            ]
+        )
         image_tensor = preprocess(image)
         image_tensor = image_tensor.unsqueeze(0).tolist()
 

@@ -6,20 +6,37 @@ from riddle_solvers import riddle_solvers
 import time
 import numpy as np
 import configparser
+import joblib
+from PIL import Image
+from transformers import ViltForQuestionAnswering
+import os
 
-CONFIG_PATH = 'fox_config.ini'
+CONFIG_PATH = "fox_config.ini"
+if os.name == "nt":
+    MODEL_PATH = "riddles/ml/AdaBoostModel_win.joblib"
+elif os.name == "posix":
+    MODEL_PATH = "riddles/ml/AdaBoostModel_linux.joblib"
+else:
+    raise ValueError("Unsupported operating system")
+
 
 # Read configuration from the file
 config = configparser.ConfigParser()
 config.read(CONFIG_PATH)
 
-API = config['DEFAULT']['API']
-TEAM_ID = config['DEFAULT']['TEAM_ID']
-FAKE_MSG = config['DEFAULT']['FAKE_MSG']
-REAL_CHUNKS_COUNT = int(config['DEFAULT']['REAL_CHUNKS_COUNT'])
-FAKE_CHUNKS_COUNT = int(config['DEFAULT']['FAKE_CHUNKS_COUNT'])
-PROTOCOL_LENGTH = int(config['DEFAULT']['PROTOCOL_LENGTH'])
-CHANNELS_COUNT = int(config['DEFAULT']['CHANNELS_COUNT'])
+API = config["DEFAULT"]["API"]
+TEAM_ID = config["DEFAULT"]["TEAM_ID"]
+FAKE_MSG = config["DEFAULT"]["FAKE_MSG"]
+REAL_CHUNKS_COUNT = int(config["DEFAULT"]["REAL_CHUNKS_COUNT"])
+FAKE_CHUNKS_COUNT = int(config["DEFAULT"]["FAKE_CHUNKS_COUNT"])
+PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
+CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
+loaded_processor_cv_hard = joblib.load("riddles/cv/hard/vqa_processor.joblib")
+loaded_model_cv_hard = ViltForQuestionAnswering.from_pretrained(
+    "riddles/cv/hard/vqa_model"
+)
+loaded_model_ml_easy = joblib.load("riddles/ml/forecasting_model.joblib")
+loaded_model_ml_medium = joblib.load(MODEL_PATH)
 
 
 def init_fox(team_id):
@@ -250,7 +267,16 @@ def submit_fox_attempt(team_id):
         else:
             st = time.time()
             try:
-                solution = solver(testcase)
+                if riddle_id == "cv_hard":
+                    solution = solver(
+                        testcase, loaded_processor_cv_hard, loaded_model_cv_hard
+                    )
+                elif riddle_id == "ml_easy":
+                    solution = solver(testcase, loaded_model_ml_easy)
+                elif riddle_id == "ml_medium":
+                    solution = solver(testcase, loaded_model_ml_medium)
+                else:
+                    solution = solver(testcase)
             except Exception as e:
                 print("Error parsing response in send message:", e)
                 return None
@@ -263,7 +289,8 @@ def submit_fox_attempt(team_id):
     st = time.time()
     generate_message_array(message, image_carrier)
     ed = time.time()
-    print(f"Sent msgs in {ed-st} seconds")#1.2s
+    print(f"Sent msgs in {ed-st} seconds")  # 1.2s
     end_fox(team_id)
+
 
 # submit_fox_attempt(TEAM_ID)
