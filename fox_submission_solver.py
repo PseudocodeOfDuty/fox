@@ -236,13 +236,17 @@ def submit_fox_attempt(team_id):
     message, image_carrier = init_fox(team_id)
     for riddle_id, solver in riddle_solvers.items():
         testcase = get_riddle(team_id, riddle_id)
-        if riddle_id!="cv_medium":
+        if riddle_id!="cv_medium" and riddle_id!="sec_medium_stegano":
             print(f"Riddle {riddle_id}: {testcase}")
         if testcase is None:
             continue
         else:
             st = time.time()
-            solution = solver(testcase)
+            try:
+                solution = solver(testcase)
+            except Exception as e:
+                print("Error parsing response in send message:", e)
+                return None
             ed = time.time()
             if riddle_id!="cv_medium":
                 print(f"Riddle {riddle_id}: {solution}")

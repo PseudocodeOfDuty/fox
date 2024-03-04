@@ -96,14 +96,33 @@ def solve_ml_medium(input: list) -> int:
 
 
 def solve_sec_medium(input: torch.Tensor) -> str:
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    img = input.to(device)
+    img = torch.tensor(input)
+    """
+    This function takes a torch.Tensor as input and returns a string as output.
+
+    Parameters:
+    input (torch.Tensor): A torch.Tensor representing the image that has the encoded message.
+
+    Returns:
+    str: A string representing the decoded message from the image.
+    """
     if img.dim() == 3:
         img = img.unsqueeze(0)
     return decode(img)
 
 
 def solve_sec_hard(input: tuple) -> str:
+    """
+    This function takes a tuple as input and returns a list a string.
+
+    Parameters:
+    input (tuple): A tuple containing two elements:
+        - A key 
+        - A Plain text.
+
+    Returns:
+    list:A string of ciphered text
+    """ 
     key, data = input
     data = binascii.unhexlify(data)
     key = binascii.unhexlify(key)

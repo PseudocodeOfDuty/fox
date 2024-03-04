@@ -32,17 +32,17 @@ print(np.array(res).ndim)
 #     res
 # )  # should be list of the representing the real image --> accept = gte(85%) ssim
 fig, axs = plt.subplots(1, 1)
-payload = {"solution": res}
-response = requests.post(
-    "http://localhost:5000/eagle/solve-riddle",
-    json=payload,
-    headers={"content-type": "application/json"},
-)
+# payload = {"solution": res}
+# response = requests.post(
+#     "http://localhost:5000/eagle/solve-riddle",
+#     json=payload,
+#     headers={"content-type": "application/json"},
+# )
 
 
-axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
-axs.set_title("real")
-axs.axis("off")
+# axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
+# axs.set_title("real")
+# axs.axis("off")
 
 plt.show()
 print("......................testing cv hard..........................")
@@ -80,14 +80,14 @@ print("......................testing security medium..........................")
 
 image_path = "SteganoGAN/sample_example/encoded.png"
 image = Image.open(image_path)
-preprocess = transforms.Compose(
-    [
-        transforms.ToTensor(),
-    ]
-)
-image_tensor = preprocess(image)
-print(type(image_tensor))
-result = solve_sec_medium(image_tensor)
+# preprocess = transforms.Compose(
+#     [
+#         transforms.ToTensor(),
+#     ]
+# )
+# image_tensor = preprocess(image)
+# print(type(image_tensor))
+result = solve_sec_medium(np.array(image).tolist())
 print(type(result))
 print(result)
 
