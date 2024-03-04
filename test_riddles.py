@@ -41,11 +41,11 @@ class TestCVFunctions(unittest.TestCase):
         self.assertGreaterEqual(matching_degree(res_np, real_image), 0.85)
 
         # Plotting the result (uncomment if needed)
-        fig, axs = plt.subplots(1, 1)
-        axs.imshow(cv2.cvtColor(res_np, cv2.COLOR_RGB2BGR))
-        axs.set_title("Result Image")
-        axs.axis("off")
-        plt.show()
+        # fig, axs = plt.subplots(1, 1)
+        # axs.imshow(cv2.cvtColor(res_np, cv2.COLOR_RGB2BGR))
+        # axs.set_title("Result Image")
+        # axs.axis("off")
+        # plt.show()
 
 
 class TestMLFunctions(unittest.TestCase):
@@ -81,12 +81,17 @@ class TestMLFunctions(unittest.TestCase):
 
 class TestSecurityFunctions(unittest.TestCase):
 
-    # def test_solve_sec_medium(self):
-    #     image_path = "SteganoGAN/sample_example/encoded.png"
-    #     image = cv2.imread(image_path)
-    #     res = solve_sec_medium(image.tolist())
-    #     self.assertIsInstance(res, type(str))  # Adjust based on the expected type
-    #     # self.assertEqual(res, "")
+    def test_solve_sec_medium(self):
+        image_path = "SteganoGAN/sample_example/encoded.png"
+        image = Image.open(image_path)
+        preprocess = transforms.Compose([
+            transforms.ToTensor(),
+        ])
+        image_tensor = preprocess(image)
+        image_tensor = image_tensor.unsqueeze(0).tolist()
+        res = solve_sec_medium(image_tensor)
+        self.assertIsInstance(res, str)  # Adjust based on the expected type
+        self.assertEqual(res, "Beyond The Obvious.")
 
     def test_solve_sec_hard(self):
         input_data = ("266200199BBCDFF1", "0123456789ABCDEF")

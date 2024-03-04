@@ -9,6 +9,6 @@ preprocess = transforms.Compose([
 ])
 image_tensor = preprocess(image)
 print(type(image_tensor))
-image_tensor = image_tensor.unsqueeze(0) #Could be added to function
+image_tensor = image_tensor.unsqueeze(0).tolist()
 result = solve_sec_medium(image_tensor)
 print(result)

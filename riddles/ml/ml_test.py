@@ -2,7 +2,6 @@ import pandas as pd
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 import joblib
-import os
 from ml_medium import MODEL_PATH
 
 
