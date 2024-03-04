@@ -1,6 +1,6 @@
 import requests
-from fox.fox_helper_functions import *
-from fox.fox_classes import *
+from fox_data.fox_helper_functions import *
+from fox_data.fox_classes import *
 import random
 from riddle_solvers import riddle_solvers
 import time
