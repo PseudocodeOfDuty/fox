@@ -1,6 +1,6 @@
 import cv2
 
-from reconstructor import reconstructor as r
+from reconst_2d import reconstructor as r
 
 # Read the image
 image_path = "./riddles/cv/easy/shredded.jpg"
