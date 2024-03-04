@@ -97,6 +97,7 @@ def solve_ml_medium(input: list) -> int:
 
 def solve_sec_medium(input: torch.Tensor) -> str:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Device: {device}")
     img = torch.tensor(input, device=device) 
     """
     This function takes a torch.Tensor as input and returns a string as output.
@@ -184,5 +185,5 @@ riddle_solvers = {
     "sec_hard": solve_sec_hard,
     # "cv_easy": solve_cv_easy,
     # "cv_hard": solve_cv_hard,
-    # "cv_medium": solve_cv_medium
+    "cv_medium": solve_cv_medium
 }

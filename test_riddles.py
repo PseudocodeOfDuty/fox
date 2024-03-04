@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 from math import sqrt
 import requests
 import unittest
+import time
 
 
 # print("......................testing cv easy..........................")
@@ -33,7 +34,11 @@ class TestCVFunctions(unittest.TestCase):
 
         input_data = (list(rgb_target), list(rgb_template))
 
+        st = time.time()
         res = solve_cv_medium(input_data)
+        ed = time.time()
+        print(f"test_solve_cv_medium time: {ed-st}")
+
         res_np = np.array(res, dtype=np.uint8)
         self.assertIsInstance(res, list)  # Check if res is a list
         self.assertEqual(res_np.ndim, 3)  # Check if res is a 3D array
@@ -53,7 +58,11 @@ class TestMLFunctions(unittest.TestCase):
     def test_solve_ml_easy(self):
         input_data = pd.read_csv("riddles/ml/series_data.csv")
 
+        st = time.time()
         res = solve_ml_easy(input_data)
+        ed = time.time()
+        print(f"test_solve_ml_easy time: {ed-st}")
+
         self.assertIsInstance(res, list)  # Check if res is a list
         self.assertEqual(len(res), 50)  # Check if the length of the list is 30
 
@@ -73,7 +82,11 @@ class TestMLFunctions(unittest.TestCase):
     def test_solve_ml_medium(self):
         input_data = [0, 0]
 
+        st = time.time()
         res = solve_ml_medium(input_data)
+        ed = time.time()
+        print(f"test_solve_ml_medium time: {ed-st}")
+
         self.assertIsInstance(res, int)  # Check if res is an integer
         self.assertIn(res, [0, -1])  # Check if res is either 0 or -1
         self.assertEqual(res, 0)
@@ -89,14 +102,23 @@ class TestSecurityFunctions(unittest.TestCase):
         ])
         image_tensor = preprocess(image)
         image_tensor = image_tensor.unsqueeze(0).tolist()
+
+        st = time.time()
         res = solve_sec_medium(image_tensor)
+        ed = time.time()
+        print(f"test_solve_sec_medium time: {ed-st}")
+
         self.assertIsInstance(res, str)  # Adjust based on the expected type
         self.assertEqual(res, "Beyond The Obvious.")
 
     def test_solve_sec_hard(self):
         input_data = ("266200199BBCDFF1", "0123456789ABCDEF")
 
+        st = time.time()
         res = solve_sec_hard(input_data)
+        ed = time.time()
+        print(f"test_solve_sec_hard time: {ed-st}")
+
         self.assertIsInstance(res, str)  # Check if res is a string
         self.assertEqual(res, "4E0E6864B5E1CA52")
 
@@ -119,14 +141,22 @@ class TestProblemSolvingFunctions(unittest.TestCase):
         x = 3
         input_data = (q, x)
 
+        st = time.time()
         res = solve_problem_solving_easy(input_data)
+        ed = time.time()
+        print(f"test_solve_ps_easy time: {ed-st}")
+
         self.assertIsInstance(res, list)  # Check if res is a list
         self.assertEqual(res, ["pharaoh", "sphinx", "nile"])
 
     def test_solve_problem_solving_medium(self):
         input_data = "3[d1[e2[l]]]"
 
+        st = time.time()
         res = solve_problem_solving_medium(input_data)
+        ed = time.time()
+        print(f"test_solve_ps_medium time: {ed-st}")
+
         self.assertIsInstance(res, str)  # Check if res is a string
         self.assertEqual(res, "delldelldell")
 
@@ -135,7 +165,11 @@ class TestProblemSolvingFunctions(unittest.TestCase):
         n = 2
         input_data = (m, n)
 
+        st = time.time()
         res = solve_problem_solving_hard(input_data)
+        ed = time.time()
+        print(f"test_solve_ps_hard time: {ed-st}")
+
         self.assertIsInstance(res, int)  # Check if res is an integer
         self.assertEqual(res, 3)
 
