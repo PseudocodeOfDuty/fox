@@ -232,14 +232,16 @@ def submit_fox_attempt(team_id):
     message, image_carrier = init_fox(team_id)
     for riddle_id, solver in riddle_solvers.items():
         testcase = get_riddle(team_id, riddle_id)
-        print(f"Riddle {riddle_id}: {testcase}")
+        if riddle_id!="cv_medium":
+            print(f"Riddle {riddle_id}: {testcase}")
         if testcase is None:
             continue
         else:
             st = time.time()
             solution = solver(testcase)
             ed = time.time()
-            print(f"Riddle {riddle_id}: {solution}")
+            if riddle_id!="cv_medium":
+                print(f"Riddle {riddle_id}: {solution}")
             print(f"Solved {riddle_id} in {ed-st} seconds")
             response = solve_riddle(team_id, solution)
             print(f"Response {riddle_id}: {response}")
@@ -249,5 +251,6 @@ def submit_fox_attempt(team_id):
     print(f"Sent msgs in {ed-st} seconds")
     end_fox(team_id)
 
+# end_fox(TEAM_ID)
 
 submit_fox_attempt(TEAM_ID)

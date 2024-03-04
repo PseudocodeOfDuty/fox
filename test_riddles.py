@@ -8,6 +8,7 @@ from PIL import Image
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 from math import sqrt
+import requests
 
 print("......................testing cv easy..........................")
 img = cv2.imread("./riddles/cv/shredded.jpg")
@@ -26,11 +27,17 @@ input = (list(rgb_target), list(rgb_template))
 res = solve_cv_medium(input)
 print(type(res))  # should be list
 print(np.array(res).ndim)
-print("ssim is: ", matching_degree(np.array(res), real_image))
+# print("ssim is: ", matching_degree(np.array(res), real_image))
 # print(
 #     res
 # )  # should be list of the representing the real image --> accept = gte(85%) ssim
 fig, axs = plt.subplots(1, 1)
+payload = {"solution": res}
+response = requests.post(
+    "http://localhost:5000/eagle/solve-riddle",
+    json=payload,
+    headers={"content-type": "application/json"},
+)
 
 
 axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
