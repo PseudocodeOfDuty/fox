@@ -3,6 +3,7 @@ from riddles.ps.ps_easy import Easy
 from riddles.ps.ps_medium import Medium
 from riddles.ps.ps_hard import Hard
 from riddles.ml.ml_easy import ml_easy
+from riddles.ml.ml_medium import ml_medium
 from riddles.cv.cv_medium import cv_medium
 from riddles.sec.pod_des import SingleBlockDES
 import binascii
@@ -91,7 +92,8 @@ def solve_ml_medium(input: list) -> int:
     Returns:
     int: An integer representing the output of the function.
     """
-    return 0
+    solver = ml_medium()
+    return solver.solve(input)
 
 
 def solve_sec_medium(input: torch.Tensor) -> str:
@@ -160,7 +162,7 @@ riddle_solvers = {
     "cv_medium": solve_cv_medium,
     # "cv_hard": solve_cv_hard,
     "ml_easy": solve_ml_easy,
-    # "ml_medium": solve_ml_medium,
+    "ml_medium": solve_ml_medium,
     "sec_medium_stegano": solve_sec_medium,
     "sec_hard": solve_sec_hard,
 }

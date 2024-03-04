@@ -63,8 +63,10 @@ rmse = sqrt(MSE)
 print("Root Mean Squared Error (RMSE):", rmse)
 
 print("......................testing ML medium..........................")
-# print(type(res))  # should be list
-# print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
+input = [0, 0]
+res = solve_ml_medium(input)
+print(type(res))  # should be int
+print(res)  # should be 0 or -1 --> acceptance = 100%
 
 
 print("......................testing security medium..........................")
@@ -78,7 +80,6 @@ preprocess = transforms.Compose(
 )
 image_tensor = preprocess(image)
 print(type(image_tensor))
-# image_tensor = image_tensor.unsqueeze(0)  # Could be added to function
 result = solve_sec_medium(image_tensor)
 print(type(result))
 print(result)
