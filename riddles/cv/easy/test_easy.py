@@ -11,7 +11,7 @@ print("Shape of the image array:", img.shape)
 print(type(img))
 
 roro = r()
-roro.solve(img)
+print(roro.solve(img))
 
 #Expected: [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2]
 #Output:   [0, 2, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10]
