@@ -10,8 +10,8 @@ from riddle_solvers import solve_cv_medium
 
 # submit_fox_attempt(1)
 
-rgb_template = cv2.imread("./riddles/cv/patch.png")
-rgb_target = cv2.imread("./riddles/cv/large.png")
+rgb_template = cv2.imread("./riddles/cv/medium/patch.png")
+rgb_target = cv2.imread("./riddles/cv/medium/large.png")
 input_data = (list(rgb_target), list(rgb_template))
 
 

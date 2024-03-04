@@ -4,10 +4,10 @@ from riddles.ps.ps_medium import Medium
 from riddles.ps.ps_hard import Hard
 from riddles.ml.ml_easy import ml_easy
 from riddles.ml.ml_medium import ml_medium
-from riddles.cv.cv_medium import cv_medium
 from riddles.cv.hard.cv_hard import cv_hard
+from riddles.cv.medium.cv_medium import cv_medium
 from riddles.sec.pod_des import SingleBlockDES
-import warnings
+from riddles.cv.easy.cv_easy_class import Reconstructor as R
 import binascii
 import torch
 import numpy as np
@@ -28,7 +28,8 @@ def solve_cv_easy(test_case: tuple) -> list:
     Returns:
     list: A list of integers representing the order of shreds. When combined in this order, it builds the whole image.
     """
-    return []
+    r = R()
+    return r.solve(shredded_image, shred_width)
 
 
 def solve_cv_medium(input: tuple) -> list:

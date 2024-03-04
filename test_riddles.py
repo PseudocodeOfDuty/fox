@@ -1,5 +1,5 @@
 from riddle_solvers import *
-from riddles.cv.ssim_test import *
+from riddles.cv.medium.ssim_test import *
 import numpy as np
 import pandas as pd
 import cv2
@@ -31,12 +31,19 @@ loaded_model_ml_medium = joblib.load(MODEL_PATH)
 
 
 class TestCVFunctions(unittest.TestCase):
+    def test_solve_cv_easy(self):
+        image_path = "./riddles/cv/easy/shredded.jpg"
+        img = cv2.imread(image_path)
+        st = time.time()
+        res = solve_cv_easy((img, 64))
+        ed = time.time()
+        print(f"test_solve_cv_easy time: {ed-st}")
+        self.assertEqual(res, [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2])
 
     def test_solve_cv_medium(self):
-
-        rgb_template = Image.open("./riddles/cv/patch.png")
-        rgb_target = Image.open("./riddles/cv/large.png")
-        real_image = Image.open("./riddles/cv/real.png")
+        rgb_template = Image.open("./riddles/cv/medium/patch.png")
+        rgb_target = Image.open("./riddles/cv/medium/large.png")
+        real_image = Image.open("./riddles/cv/medium/real.png")
 
         input_data = (np.array(rgb_target).tolist(), np.array(rgb_template).tolist())
 
