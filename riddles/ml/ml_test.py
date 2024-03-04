@@ -2,6 +2,7 @@ import pandas as pd
 from sklearn.ensemble import AdaBoostClassifier
 from sklearn.tree import DecisionTreeClassifier
 import joblib
+import os
 
 
 # Step 1: Load the Data
@@ -18,4 +19,9 @@ adaboost_model = AdaBoostClassifier(base_classifier, n_estimators=50, random_sta
 adaboost_model.fit(features, labels)
 
 # Step 4: Save the Model
-joblib.dump(adaboost_model, 'AdaBoostModel.joblib')
+if os.name == 'nt':
+    joblib.dump(adaboost_model, 'AdaBoostModel_win.joblib')
+elif os.name == 'posix':  
+    joblib.dump(adaboost_model, 'AdaBoostModel_linux.joblib')
+else:
+    raise ValueError("Unsupported operating system")
