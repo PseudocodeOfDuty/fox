@@ -37,7 +37,7 @@ def init_fox(team_id):
             response_json = response.json()
             message = response_json["msg"]
             image_carrier = np.array(response_json["carrier_image"])
-            print(f"msg: {message}")
+            # print(f"msg: {message}")
             # print(f"carrier {image_carrier}")
             return message, image_carrier
         except Exception as e:
@@ -80,8 +80,8 @@ def generate_message_array(real_msg, image_carrier):
     for i in range(PROTOCOL_LENGTH):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
-        print([decode(np.array(m)) for m in msgs_channel])
-        print(entities_channel)
+        # print([decode(np.array(m)) for m in msgs_channel])
+        # print(entities_channel)
         while True:
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
             if status == "success":
