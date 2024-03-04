@@ -6,7 +6,7 @@ class BasicCritic(nn.Module):
     The BasicCritic module takes an image and predicts whether it is a cover
     image or a steganographic image (N, 1).
 
-    Input: (N, 3, H, W)v
+    Input: (N, 3, H, W)
     Output: (N, 1)
     """
     def _name(self):
