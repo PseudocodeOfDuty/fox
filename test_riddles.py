@@ -79,7 +79,7 @@ print(res)  # should be 0 or -1 --> acceptance = 100%
 print("......................testing security medium..........................")
 
 image_path = "SteganoGAN/sample_example/encoded.png"
-image = Image.open(image_path)
+image = cv2.imread(image_path)
 # preprocess = transforms.Compose(
 #     [
 #         transforms.ToTensor(),
@@ -87,7 +87,7 @@ image = Image.open(image_path)
 # )
 # image_tensor = preprocess(image)
 # print(type(image_tensor))
-result = solve_sec_medium(np.array(image).tolist())
+result = solve_sec_medium(image.tolist())
 print(type(result))
 print(result)
 

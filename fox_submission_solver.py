@@ -204,7 +204,7 @@ def end_fox(team_id):
     if response.status_code == 200 or response.status_code == 201:
         # Parse the response JSON and extract the test case
         try:
-            print(response["return_text"])
+            print(response.content)
         except Exception as e:
             print("Error parsing response:", e)
             return None
@@ -257,7 +257,7 @@ def submit_fox_attempt(team_id):
     st = time.time()
     generate_message_array(message, image_carrier)
     ed = time.time()
-    print(f"Sent msgs in {ed-st} seconds")
+    print(f"Sent msgs in {ed-st} seconds")#1.2s
     end_fox(team_id)
 
 # submit_fox_attempt(TEAM_ID)
