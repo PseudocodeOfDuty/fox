@@ -1,26 +1,15 @@
 import requests
 from fox_data.fox_helper_functions import *
 from fox_data.fox_classes import *
-import random
+from fox_data.fox_models_load import *
 from riddle_solvers import riddle_solvers
+import random
 import time
 import numpy as np
 import configparser
-import joblib
-from PIL import Image
-from transformers import ViltForQuestionAnswering
-import os
 
 CONFIG_PATH = "fox_config.ini"
-if os.name == "nt":
-    MODEL_PATH = "riddles/ml/AdaBoostModel_win.joblib"
-elif os.name == "posix":
-    MODEL_PATH = "riddles/ml/AdaBoostModel_linux.joblib"
-else:
-    raise ValueError("Unsupported operating system")
 
-
-# Read configuration from the file
 config = configparser.ConfigParser()
 config.read(CONFIG_PATH)
 
@@ -31,12 +20,7 @@ REAL_CHUNKS_COUNT = int(config["DEFAULT"]["REAL_CHUNKS_COUNT"])
 FAKE_CHUNKS_COUNT = int(config["DEFAULT"]["FAKE_CHUNKS_COUNT"])
 PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
-loaded_processor_cv_hard = joblib.load("riddles/cv/hard/vqa_processor.joblib")
-loaded_model_cv_hard = ViltForQuestionAnswering.from_pretrained(
-    "riddles/cv/hard/vqa_model"
-)
-loaded_model_ml_easy = joblib.load("riddles/ml/forecasting_model.joblib")
-loaded_model_ml_medium = joblib.load(MODEL_PATH)
+
 
 
 def init_fox(team_id):

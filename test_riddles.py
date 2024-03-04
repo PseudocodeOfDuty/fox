@@ -1,9 +1,9 @@
 from riddle_solvers import *
 from riddles.cv.medium.ssim_test import *
+from fox_data.fox_models_load import *
 import numpy as np
 import pandas as pd
 import cv2
-from riddle_solvers import solve_sec_medium
 from PIL import Image
 import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
@@ -11,23 +11,8 @@ from math import sqrt
 from PIL import Image
 import unittest
 import time
-import os
-import joblib
 from PIL import Image
-from transformers import ViltForQuestionAnswering
 
-if os.name == "nt":
-    MODEL_PATH = "riddles/ml/AdaBoostModel_win.joblib"
-elif os.name == "posix":
-    MODEL_PATH = "riddles/ml/AdaBoostModel_linux.joblib"
-else:
-    raise ValueError("Unsupported operating system")
-loaded_processor_cv_hard = joblib.load("riddles/cv/hard/vqa_processor.joblib")
-loaded_model_cv_hard = ViltForQuestionAnswering.from_pretrained(
-    "riddles/cv/hard/vqa_model"
-)
-loaded_model_ml_easy = joblib.load("riddles/ml/forecasting_model.joblib")
-loaded_model_ml_medium = joblib.load(MODEL_PATH)
 
 
 class TestCVFunctions(unittest.TestCase):
