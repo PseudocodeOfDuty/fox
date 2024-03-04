@@ -5,15 +5,20 @@ import random
 from riddle_solvers import riddle_solvers
 import time
 import numpy as np
+import configparser
 
 
-API = "http://3.70.97.142:5000"
-TEAM_ID = "BFhxJPg"
-FAKE_MSG = "Fake people are worse than fake messages"
-REAL_CHUNKS_COUNT = 3
-FAKE_CHUNKS_COUNT = 6
-PROTOCOL_LENGTH = 3
-CHANNELS_COUNT = 3
+# Read configuration from the file
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+API = config['DEFAULT']['API']
+TEAM_ID = config['DEFAULT']['TEAM_ID']
+FAKE_MSG = config['DEFAULT']['FAKE_MSG']
+REAL_CHUNKS_COUNT = int(config['DEFAULT']['REAL_CHUNKS_COUNT'])
+FAKE_CHUNKS_COUNT = int(config['DEFAULT']['FAKE_CHUNKS_COUNT'])
+PROTOCOL_LENGTH = int(config['DEFAULT']['PROTOCOL_LENGTH'])
+CHANNELS_COUNT = int(config['DEFAULT']['CHANNELS_COUNT'])
 
 
 def init_fox(team_id):
