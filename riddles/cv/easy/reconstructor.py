@@ -1,5 +1,6 @@
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
+import cv2
 
 
 class reconstructor:
@@ -80,6 +81,7 @@ class reconstructor:
         for i in range(0, img.shape[1], chunk_width):
             chunk = img[:, i : i + chunk_width, :]
             chunks.append(chunk)
+            cv2.imwrite(f"./riddles/cv/easy/chunks/chunk_{i//64}.jpg",chunk)
 
         print(chunks[-1].shape)
         print(len(chunks))

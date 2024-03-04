@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
-from riddles.cv.inpainter import *
+from riddles.cv.medium.inpainter import *
 
 
 class cv_medium:

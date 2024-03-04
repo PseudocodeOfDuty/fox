@@ -4,9 +4,8 @@ from riddles.ps.ps_medium import Medium
 from riddles.ps.ps_hard import Hard
 from riddles.ml.ml_easy import ml_easy
 from riddles.ml.ml_medium import ml_medium
-from riddles.cv.cv_medium import cv_medium
+from riddles.cv.medium.cv_medium import cv_medium
 from riddles.sec.pod_des import SingleBlockDES
-import warnings
 import binascii
 import torch
 import numpy as np

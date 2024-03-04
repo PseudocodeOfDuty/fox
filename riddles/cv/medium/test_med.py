@@ -6,9 +6,9 @@ import ssim_test
 import time
 
 # Load images
-rgb_template = cv2.imread("./riddles/cv/patch.png")
-rgb_target = cv2.imread("./riddles/cv/large.png")
-real_image = cv2.imread("./riddles/cv/real.png")
+rgb_template = cv2.imread("./riddles/cv/medium/patch.png")
+rgb_target = cv2.imread("./riddles/cv/medium/large.png")
+real_image = cv2.imread("./riddles/cv/medium/real.png")
 
 c = cv_medium()
 s = time.time()

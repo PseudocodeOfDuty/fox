@@ -1,5 +1,5 @@
 from riddle_solvers import *
-from riddles.cv.ssim_test import *
+from riddles.cv.medium.ssim_test import *
 import numpy as np
 import pandas as pd
 import cv2
@@ -14,7 +14,7 @@ import time
 
 
 # print("......................testing cv easy..........................")
-# img = cv2.imread("./riddles/cv/shredded.jpg")
+# img = cv2.imread("./riddles/cv/medium/shredded.jpg")
 # test_case = (img.tolist(), 64)
 # res = solve_cv_easy(test_case)
 # print(type(res))  # should be list
@@ -28,9 +28,9 @@ import time
 class TestCVFunctions(unittest.TestCase):
 
     def test_solve_cv_medium(self):
-        rgb_template = cv2.imread("./riddles/cv/patch.png")
-        rgb_target = cv2.imread("./riddles/cv/large.png")
-        real_image = cv2.imread("./riddles/cv/real.png")
+        rgb_template = cv2.imread("./riddles/cv/medium/patch.png")
+        rgb_target = cv2.imread("./riddles/cv/medium/large.png")
+        real_image = cv2.imread("./riddles/cv/medium/real.png")
 
         input_data = (list(rgb_target), list(rgb_template))
 
