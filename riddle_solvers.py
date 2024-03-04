@@ -97,7 +97,8 @@ def solve_ml_medium(input: list) -> int:
 
 
 def solve_sec_medium(input: torch.Tensor) -> str:
-    img = torch.tensor(input)
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    img = input.to(device)
     if img.dim() == 3:
         img = img.unsqueeze(0)
     return decode(img)
