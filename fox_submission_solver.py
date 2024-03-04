@@ -7,10 +7,11 @@ import time
 import numpy as np
 import configparser
 
+CONFIG_PATH = 'fox_config.ini'
 
 # Read configuration from the file
 config = configparser.ConfigParser()
-config.read('config.ini')
+config.read(CONFIG_PATH)
 
 API = config['DEFAULT']['API']
 TEAM_ID = config['DEFAULT']['TEAM_ID']
