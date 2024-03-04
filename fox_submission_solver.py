@@ -22,14 +22,16 @@ def init_fox(team_id):
     and the carrier image that you will encode the chunk in it.
     """
     payload = {"teamId": team_id}
-    response = requests.post(API + "/fox/start", json=payload)
+    response = requests.post(
+        API + "/fox/start", json=payload, headers={"content-type": "application/json"}
+    )
     if response.status_code == 200 or response.status_code == 201:
         try:
             response_json = response.json()
             message = response_json["msg"]
             image_carrier = response_json["carrier_image"]
             print(f"msg {message}")
-            print(f"msg {message}")
+            print(f"carrier {image_carrier}")
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
@@ -73,8 +75,10 @@ def generate_message_array(real_msg, image_carrier):
         entities_channel = EncodedMSG.extractEntities(msgs[i])
         print([decode(m) for m in msgs_channel])
         print(entities_channel)
-        while send_message(TEAM_ID, msgs_channel, entities_channel) != "success":
-            send_message(TEAM_ID, msgs_channel, entities_channel)
+        while True:
+            status = send_message(TEAM_ID, msgs_channel, entities_channel)
+            if status == "success":
+                break
 
 
 def get_riddle(team_id, riddle_id):
@@ -90,7 +94,11 @@ def get_riddle(team_id, riddle_id):
     payload = {"teamId": team_id, "riddleId": riddle_id}
 
     # Send a POST request to the API endpoint
-    response = requests.post(API + "/fox/get-riddle", json=payload)
+    response = requests.post(
+        API + "/fox/get-riddle",
+        json=payload,
+        headers={"content-type": "application/json"},
+    )
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200 or response.status_code == 201:
@@ -116,7 +124,11 @@ def solve_riddle(team_id, solution):
     """
     payload = {"teamId": team_id, "solution": solution}
     # Send a POST request to the API endpoint
-    response = requests.post(API + "/fox/solve-riddle", json=payload)
+    response = requests.post(
+        API + "/fox/solve-riddle",
+        json=payload,
+        headers={"content-type": "application/json"},
+    )
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200 or response.status_code == 201:
@@ -147,7 +159,11 @@ def send_message(team_id, messages, message_entities):
         "messages": messages,
         "message_entities": message_entities,
     }
-    response = requests.post(API + "/fox/send-message", json=payload)
+    response = requests.post(
+        API + "/fox/send-message",
+        json=payload,
+        headers={"content-type": "application/json"},
+    )
     if response.status_code == 200 or response.status_code == 201:
         try:
             response_json = response.json()
@@ -173,13 +189,17 @@ def end_fox(team_id):
         "teamId": team_id,
     }
     # Send a POST request to the API endpoint
-    response = requests.post(API + "/fox/end-game", json=payload)
+    response = requests.post(
+        API + "/fox/end-game",
+        json=payload,
+        headers={"content-type": "application/json"},
+    )
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200 or response.status_code == 201:
         # Parse the response JSON and extract the test case
         try:
-            print(response.text)
+            print(response["return_text"])
         except Exception as e:
             print("Error parsing response:", e)
             return None
@@ -221,7 +241,8 @@ def submit_fox_attempt(team_id):
             ed = time.time()
             print(f"Riddle {riddle_id}: {solution}")
             print(f"Solved {riddle_id} in {ed-st} seconds")
-            solve_riddle(team_id, solution)
+            response = solve_riddle(team_id, solution)
+            print(f"Response {riddle_id}: {response}")
     st = time.time()
     generate_message_array(message, image_carrier)
     ed = time.time()
