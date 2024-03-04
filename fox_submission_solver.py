@@ -22,7 +22,6 @@ PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 
 
-
 def init_fox(team_id):
     """
     In this fucntion you need to hit to the endpoint to start the game as a fox with your team id.
@@ -132,11 +131,15 @@ def solve_riddle(team_id, solution):
     """
     payload = {"teamId": team_id, "solution": solution}
     # Send a POST request to the API endpoint
-    response = requests.post(
-        API + "/fox/solve-riddle",
-        json=payload,
-        headers={"content-type": "application/json"},
-    )
+    try:
+        response = requests.post(
+            API + "/fox/solve-riddle",
+            json=payload,
+            headers={"content-type": "application/json"},
+        )
+    except Exception as e:
+        print(e)
+        return None
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200 or response.status_code == 201:
@@ -167,11 +170,15 @@ def send_message(team_id, messages, message_entities):
         "messages": messages,
         "message_entities": message_entities,
     }
-    response = requests.post(
-        API + "/fox/send-message",
-        json=payload,
-        headers={"content-type": "application/json"},
-    )
+    try:
+        response = requests.post(
+            API + "/fox/send-message",
+            json=payload,
+            headers={"content-type": "application/json"},
+        )
+    except Exception as e:
+        print(e)
+        return None
     if response.status_code == 200 or response.status_code == 201:
         try:
             response_json = response.json()
@@ -278,3 +285,4 @@ def submit_fox_attempt(team_id):
 
 
 # submit_fox_attempt(TEAM_ID)
+# end_fox(TEAM_ID)

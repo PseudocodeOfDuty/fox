@@ -12,7 +12,7 @@ from PIL import Image
 import unittest
 import time
 from PIL import Image
-
+import json
 
 
 class TestCVFunctions(unittest.TestCase):
@@ -24,6 +24,13 @@ class TestCVFunctions(unittest.TestCase):
         ed = time.time()
         print(f"test_solve_cv_easy time: {ed-st}")
         self.assertEqual(res, [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2])
+        print(type(res))
+        print(type(res[0]))
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
     def test_solve_cv_medium(self):
         rgb_template = Image.open("./riddles/cv/medium/patch.png")
@@ -42,7 +49,11 @@ class TestCVFunctions(unittest.TestCase):
         self.assertEqual(res_np.ndim, 3)  # Check if res is a 3D array
         self.assertEqual(res_np.shape, np.array(rgb_target).shape)
         self.assertGreaterEqual(matching_degree(res_np, np.array(real_image)), 0.85)
-
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
         # Plotting the result (uncomment if needed)
         # fig, axs = plt.subplots(1, 1)
         # axs.imshow(cv2.cvtColor(res_np, cv2.COLOR_RGB2BGR))
@@ -63,6 +74,11 @@ class TestCVFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, int)  # Check if res is a int
         self.assertEqual(res, 2)
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
 
 class TestMLFunctions(unittest.TestCase):
@@ -90,6 +106,11 @@ class TestMLFunctions(unittest.TestCase):
         MSE = np.square(np.subtract(actual, res)).mean()
         rmse = sqrt(MSE)
         self.assertLessEqual(rmse, 35)  # Check if RMSE is less than or equal to 35
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
     def test_solve_ml_medium(self):
         input_data = [0, 0]
@@ -102,6 +123,11 @@ class TestMLFunctions(unittest.TestCase):
         self.assertIsInstance(res, int)  # Check if res is an integer
         self.assertIn(res, [0, -1])  # Check if res is either 0 or -1
         self.assertEqual(res, 0)
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
 
 class TestSecurityFunctions(unittest.TestCase):
@@ -124,6 +150,11 @@ class TestSecurityFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, str)  # Adjust based on the expected type
         self.assertEqual(res, "Beyond The Obvious.")
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
     def test_solve_sec_hard(self):
         input_data = ("266200199BBCDFF1", "0123456789ABCDEF")
@@ -135,6 +166,11 @@ class TestSecurityFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, str)  # Check if res is a string
         self.assertEqual(res, "4E0E6864B5E1CA52")
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
 
 class TestProblemSolvingFunctions(unittest.TestCase):
@@ -162,6 +198,11 @@ class TestProblemSolvingFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, list)  # Check if res is a list
         self.assertEqual(res, ["pharaoh", "sphinx", "nile"])
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
     def test_solve_problem_solving_medium(self):
         input_data = "3[d1[e2[l]]]"
@@ -173,6 +214,11 @@ class TestProblemSolvingFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, str)  # Check if res is a string
         self.assertEqual(res, "delldelldell")
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
     def test_solve_problem_solving_hard(self):
         m = 3
@@ -186,6 +232,11 @@ class TestProblemSolvingFunctions(unittest.TestCase):
 
         self.assertIsInstance(res, int)  # Check if res is an integer
         self.assertEqual(res, 3)
+        try:
+            json.dumps(res)
+        except Exception as e:
+            # If an exception occurs during serialization, fail the test
+            self.fail(f"Failed to serialize data to JSON: {e}")
 
 
 if __name__ == "__main__":
