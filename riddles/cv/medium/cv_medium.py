@@ -29,17 +29,6 @@ class cv_medium:
             if m.distance < 0.75 * n.distance:
                 good_matches.append(m)
 
-        # Draw matches
-        # matched_img = cv2.drawMatches(
-        #     template,
-        #     keypoints_template,
-        #     target,
-        #     keypoints_target,
-        #     good_matches,
-        #     None,
-        #     flags=cv2.DrawMatchesFlags_NOT_DRAW_SINGLE_POINTS,
-        # )
-
         # Extract matched keypoints
         src_pts = np.float32(
             [keypoints_template[m.queryIdx].pt for m in good_matches]
@@ -50,10 +39,6 @@ class cv_medium:
 
         # Estimate homography
         H, _ = cv2.findHomography(src_pts, dst_pts, cv2.RANSAC)
-
-        # Warp template image        # warped_template = cv2.warpPerspective(
-        #     template, H, (target.shape[1], target.shape[0])
-        # )
 
         h, w = template.shape
         corners = np.float32([[0, 0], [0, h - 1], [w - 1, h - 1], [w - 1, 0]]).reshape(

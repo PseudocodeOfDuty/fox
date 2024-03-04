@@ -4,9 +4,6 @@ import joblib
 
 
 class ml_easy:
-    # Load the model
-    def load_model(self, model_filename="riddles/ml/forecasting_model.joblib"):
-        return joblib.load(model_filename)
 
     # Forecast future values
     def forecast_future_values(self, model, new_data, forecast_steps=50):
@@ -22,9 +19,7 @@ class ml_easy:
 
         return forecast_values
 
-    def solve(self, data: pd.DataFrame):
-        # Load the model
-        loaded_model = self.load_model()
+    def solve(self, data: pd.DataFrame, loaded_model):
 
         # Forecast future values using the loaded model and test data
         forecast_values = self.forecast_future_values(loaded_model, data)

@@ -4,6 +4,7 @@ from riddles.ps.ps_medium import Medium
 from riddles.ps.ps_hard import Hard
 from riddles.ml.ml_easy import ml_easy
 from riddles.ml.ml_medium import ml_medium
+from riddles.cv.hard.cv_hard import cv_hard
 from riddles.cv.medium.cv_medium import cv_medium
 from riddles.sec.pod_des import SingleBlockDES
 from riddles.cv.easy.cv_easy_class import Reconstructor as R
@@ -11,6 +12,7 @@ import binascii
 import torch
 import numpy as np
 import pandas as pd
+
 
 def solve_cv_easy(test_case: tuple) -> list:
     shredded_image, shred_width = test_case
@@ -27,7 +29,7 @@ def solve_cv_easy(test_case: tuple) -> list:
     list: A list of integers representing the order of shreds. When combined in this order, it builds the whole image.
     """
     r = R()
-    return r.solve(shredded_image,shred_width)
+    return r.solve(shredded_image, shred_width)
 
 
 def solve_cv_medium(input: tuple) -> list:
@@ -49,7 +51,8 @@ def solve_cv_medium(input: tuple) -> list:
     res = solver.solve(combined_image, patch_image)
     return res.tolist()
 
-def solve_cv_hard(input: tuple) -> int:
+
+def solve_cv_hard(input: tuple, loaded_processor, loaded_model) -> int:
     extracted_question, image = input
     image = np.array(image)
     """
@@ -63,10 +66,12 @@ def solve_cv_hard(input: tuple) -> int:
     Returns:
     int: An integer representing the answer to the question about the image.
     """
-    return 0
+    solver = cv_hard()
+    res = solver.solve(image, extracted_question, loaded_processor, loaded_model)
+    return res
 
 
-def solve_ml_easy(input: pd.DataFrame) -> list:
+def solve_ml_easy(input: pd.DataFrame, loaded_model) -> list:
     data = pd.DataFrame(input)
 
     """
@@ -79,10 +84,10 @@ def solve_ml_easy(input: pd.DataFrame) -> list:
     list: A list of floats representing the output of the function.
     """
     solver = ml_easy()
-    return solver.solve(data)
+    return solver.solve(data, loaded_model)
 
 
-def solve_ml_medium(input: list) -> int:
+def solve_ml_medium(input: list, loaded_model) -> int:
     """
     This function takes a list as input and returns an integer as output.
 
@@ -93,13 +98,13 @@ def solve_ml_medium(input: list) -> int:
     int: An integer representing the output of the function.
     """
     solver = ml_medium()
-    return solver.solve(input)
+    return solver.solve(input, loaded_model)
 
 
 def solve_sec_medium(input: torch.Tensor) -> str:
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     print(f"Device: {device}")
-    img = torch.tensor(input, device=device) 
+    img = torch.tensor(input, device=device)
     """
     This function takes a torch.Tensor as input and returns a string as output.
 
@@ -120,12 +125,12 @@ def solve_sec_hard(input: tuple) -> str:
 
     Parameters:
     input (tuple): A tuple containing two elements:
-        - A key 
+        - A key
         - A Plain text.
 
     Returns:
     list:A string of ciphered text
-    """ 
+    """
     key, data = input
     data = binascii.unhexlify(data)
     key = binascii.unhexlify(key)
@@ -185,6 +190,6 @@ riddle_solvers = {
     "sec_medium_stegano": solve_sec_medium,
     "sec_hard": solve_sec_hard,
     # "cv_easy": solve_cv_easy,
-    # "cv_hard": solve_cv_hard,
-    "cv_medium": solve_cv_medium
+    "cv_hard": solve_cv_hard,
+    "cv_medium": solve_cv_medium,
 }
