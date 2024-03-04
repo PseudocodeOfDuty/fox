@@ -189,11 +189,15 @@ def end_fox(team_id):
         "teamId": team_id,
     }
     # Send a POST request to the API endpoint
-    response = requests.post(
-        API + "/fox/end-game",
-        json=payload,
-        headers={"content-type": "application/json"},
-    )
+    try:
+        response = requests.post(
+            API + "/fox/end-game",
+            json=payload,
+            headers={"content-type": "application/json"},
+        )
+    except Exception as e:
+        print("Error parsing response in send message:", e)
+        return None
 
     # Check if the request was successful (status code 200)
     if response.status_code == 200 or response.status_code == 201:
