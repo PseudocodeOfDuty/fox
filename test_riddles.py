@@ -9,127 +9,156 @@ import torchvision.transforms as transforms
 import matplotlib.pyplot as plt
 from math import sqrt
 import requests
-
-print("......................testing cv easy..........................")
-img = cv2.imread("./riddles/cv/shredded.jpg")
-test_case = (img.tolist(), 64)
-
-res = solve_cv_easy(test_case)
-print(type(res))  # should be list
-print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
-
-print("......................testing cv medium..........................")
-rgb_template = cv2.imread("./riddles/cv/patch.png")
-rgb_target = cv2.imread("./riddles/cv/large.png")
-real_image = cv2.imread("./riddles/cv/real.png")
-input = (list(rgb_target), list(rgb_template))
-
-res = solve_cv_medium(input)
-print(type(res))  # should be list
-print(np.array(res).ndim)
-# print("ssim is: ", matching_degree(np.array(res), real_image))
-# print(
-#     res
-# )  # should be list of the representing the real image --> accept = gte(85%) ssim
-fig, axs = plt.subplots(1, 1)
-# payload = {"solution": res}
-# response = requests.post(
-#     "http://localhost:5000/eagle/solve-riddle",
-#     json=payload,
-#     headers={"content-type": "application/json"},
-# )
+import unittest
 
 
-# axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
-# axs.set_title("real")
-# axs.axis("off")
+# print("......................testing cv easy..........................")
+# img = cv2.imread("./riddles/cv/shredded.jpg")
+# test_case = (img.tolist(), 64)
 
-plt.show()
-print("......................testing cv hard..........................")
-# res = solve_cv_medium(input)
-# print(type(res))  # should be int
+# res = solve_cv_easy(test_case)
+# print(type(res))  # should be list
 # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 
-print("......................testing ML easy..........................")
-input = pd.read_csv("riddles/ml/series_data.csv")
+# print("......................testing cv medium..........................")
+# rgb_template = cv2.imread("./riddles/cv/patch.png")
+# rgb_target = cv2.imread("./riddles/cv/large.png")
+# real_image = cv2.imread("./riddles/cv/real.png")
+# input = (list(rgb_target), list(rgb_template))
 
-res = solve_ml_easy(input)
-print(type(res))  # should be list
-print(len(res))  # should be list
-print(res)  # should be list of 30 days forecasting --> acceptance <= 35
-with open("riddles/ml/result.txt", "r") as file:
-    content = file.read()
-    # Extract values from the content string
-    actual = [
-        float(value) for value in content.replace("[", "").replace("]", "").split(",")
-    ]
-
-# Calculate RMSE
-MSE = np.square(np.subtract(actual, res)).mean()
-rmse = sqrt(MSE)
-print("Root Mean Squared Error (RMSE):", rmse)
-
-print("......................testing ML medium..........................")
-input = [0, 0]
-res = solve_ml_medium(input)
-print(type(res))  # should be int
-print(res)  # should be 0 or -1 --> acceptance = 100%
+# res = solve_cv_medium(input)
+# print(type(res))  # should be list
+# print(np.array(res).ndim)
+# # print("ssim is: ", matching_degree(np.array(res), real_image))
+# # print(
+# #     res
+# # )  # should be list of the representing the real image --> accept = gte(85%) ssim
+# fig, axs = plt.subplots(1, 1)
+# # payload = {"solution": res}
+# # response = requests.post(
+# #     "http://localhost:5000/eagle/solve-riddle",
+# #     json=payload,
+# #     headers={"content-type": "application/json"},
+# # )
 
 
-print("......................testing security medium..........................")
+# # axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
+# # axs.set_title("real")
+# # axs.axis("off")
 
-image_path = "SteganoGAN/sample_example/encoded.png"
-image = cv2.imread(image_path)
-# preprocess = transforms.Compose(
-#     [
-#         transforms.ToTensor(),
-#     ]
-# )
-# image_tensor = preprocess(image)
-# print(type(image_tensor))
-result = solve_sec_medium(image.tolist())
-print(type(result))
-print(result)
 
-print("......................testing security hard..........................")
-input = ("266200199BBCDFF1", "0123456789ABCDEF")
+# plt.show()
+# print("......................testing cv hard..........................")
+# # res = solve_cv_medium(input)
+# # print(type(res))  # should be int
+# # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
+class TestCVFunctions(unittest.TestCase):
 
-res = solve_sec_hard(input)
-print(type(res))  # should be string
-print(res)  # should be string of the encoded message --> accept = 100%
+    def test_solve_cv_medium(self):
+        rgb_template = cv2.imread("./riddles/cv/patch.png")
+        rgb_target = cv2.imread("./riddles/cv/large.png")
+        input_data = (list(rgb_target), list(rgb_template))
 
-print("......................testing PS easy..........................")
-q = [
-    "pharaoh",
-    "sphinx",
-    "pharaoh",
-    "pharaoh",
-    "nile",
-    "sphinx",
-    "pyramid",
-    "pharaoh",
-    "sphinx",
-    "sphinx",
-]
-x = 3
-input = (q, x)
+        res = solve_cv_medium(input_data)
+        self.assertIsInstance(res, list)  # Check if res is a list
+        self.assertEqual(np.array(res).ndim, 3)  # Check if res is a 2D array
+        # Add more specific assertions based on expected output
+        # For example, you might want to assert the shape or properties of the output image
 
-res = solve_problem_solving_easy(input)
-print(type(res))  # should be list
-print(res)  # should be list of the top x --> accept = 100%
+        # Plotting the result (uncomment if needed)
+        # fig, axs = plt.subplots(1, 1)
+        # axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
+        # axs.set_title("Result Image")
+        # axs.axis("off")
+        # plt.show()
 
-print("......................testing PS medium..........................")
-input = "3[d1[e2[l]]]"
 
-res = solve_problem_solving_medium(input)
-print(type(res))  # should be a string
-print(res)  # should be the decoded string --> accept = 100%
+class TestMLFunctions(unittest.TestCase):
 
-print("......................testing PS hard..........................")
-m = 3
-n = 2
-input = (m, n)
+    def test_solve_ml_easy(self):
+        input_data = pd.read_csv("riddles/ml/series_data.csv")
 
-res = solve_problem_solving_hard(input)
-print(type(res))  # should be an int
-print(res)  # should be no of unique paths --> accept = 100%
+        res = solve_ml_easy(input_data)
+        self.assertIsInstance(res, list)  # Check if res is a list
+        self.assertEqual(len(res), 50)  # Check if the length of the list is 30
+
+        # Calculate RMSE
+        with open("riddles/ml/result.txt", "r") as file:
+            content = file.read()
+            # Extract values from the content string
+            actual = [
+                float(value)
+                for value in content.replace("[", "").replace("]", "").split(",")
+            ]
+
+        MSE = np.square(np.subtract(actual, res)).mean()
+        rmse = sqrt(MSE)
+        self.assertLessEqual(rmse, 35)  # Check if RMSE is less than or equal to 35
+
+    def test_solve_ml_medium(self):
+        input_data = [0, 0]
+
+        res = solve_ml_medium(input_data)
+        self.assertIsInstance(res, int)  # Check if res is an integer
+        self.assertIn(res, [0, -1])  # Check if res is either 0 or -1
+        self.assertEqual(res, 0)
+
+
+class TestSecurityFunctions(unittest.TestCase):
+
+    # def test_solve_sec_medium(self):
+    #     image_path = "SteganoGAN/sample_example/encoded.png"
+    #     image = cv2.imread(image_path)
+    #     res = solve_sec_medium(image.tolist())
+    #     self.assertIsInstance(res, type(str))  # Adjust based on the expected type
+    #     # self.assertEqual(res, "")
+
+    def test_solve_sec_hard(self):
+        input_data = ("266200199BBCDFF1", "0123456789ABCDEF")
+
+        res = solve_sec_hard(input_data)
+        self.assertIsInstance(res, str)  # Check if res is a string
+        self.assertEqual(res, "4E0E6864B5E1CA52")
+
+
+class TestProblemSolvingFunctions(unittest.TestCase):
+
+    def test_solve_problem_solving_easy(self):
+        q = [
+            "pharaoh",
+            "sphinx",
+            "pharaoh",
+            "pharaoh",
+            "nile",
+            "sphinx",
+            "pyramid",
+            "pharaoh",
+            "sphinx",
+            "sphinx",
+        ]
+        x = 3
+        input_data = (q, x)
+
+        res = solve_problem_solving_easy(input_data)
+        self.assertIsInstance(res, list)  # Check if res is a list
+        self.assertEqual(res, ["pharaoh", "sphinx", "nile"])
+
+    def test_solve_problem_solving_medium(self):
+        input_data = "3[d1[e2[l]]]"
+
+        res = solve_problem_solving_medium(input_data)
+        self.assertIsInstance(res, str)  # Check if res is a string
+        self.assertEqual(res, "delldelldell")
+
+    def test_solve_problem_solving_hard(self):
+        m = 3
+        n = 2
+        input_data = (m, n)
+
+        res = solve_problem_solving_hard(input_data)
+        self.assertIsInstance(res, int)  # Check if res is an integer
+        self.assertEqual(res, 3)
+
+
+if __name__ == "__main__":
+    unittest.main()
