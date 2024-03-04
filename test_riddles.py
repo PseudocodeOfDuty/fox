@@ -15,39 +15,11 @@ import unittest
 # print("......................testing cv easy..........................")
 # img = cv2.imread("./riddles/cv/shredded.jpg")
 # test_case = (img.tolist(), 64)
-
 # res = solve_cv_easy(test_case)
 # print(type(res))  # should be list
 # print(res)  # should be list of the correct order of the shreds --> acceptance = 100%
 
-# print("......................testing cv medium..........................")
-# rgb_template = cv2.imread("./riddles/cv/patch.png")
-# rgb_target = cv2.imread("./riddles/cv/large.png")
-# real_image = cv2.imread("./riddles/cv/real.png")
-# input = (list(rgb_target), list(rgb_template))
 
-# res = solve_cv_medium(input)
-# print(type(res))  # should be list
-# print(np.array(res).ndim)
-# # print("ssim is: ", matching_degree(np.array(res), real_image))
-# # print(
-# #     res
-# # )  # should be list of the representing the real image --> accept = gte(85%) ssim
-# fig, axs = plt.subplots(1, 1)
-# # payload = {"solution": res}
-# # response = requests.post(
-# #     "http://localhost:5000/eagle/solve-riddle",
-# #     json=payload,
-# #     headers={"content-type": "application/json"},
-# # )
-
-
-# # axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
-# # axs.set_title("real")
-# # axs.axis("off")
-
-
-# plt.show()
 # print("......................testing cv hard..........................")
 # # res = solve_cv_medium(input)
 # # print(type(res))  # should be int
@@ -57,20 +29,23 @@ class TestCVFunctions(unittest.TestCase):
     def test_solve_cv_medium(self):
         rgb_template = cv2.imread("./riddles/cv/patch.png")
         rgb_target = cv2.imread("./riddles/cv/large.png")
+        real_image = cv2.imread("./riddles/cv/real.png")
+
         input_data = (list(rgb_target), list(rgb_template))
 
         res = solve_cv_medium(input_data)
+        res_np = np.array(res, dtype=np.uint8)
         self.assertIsInstance(res, list)  # Check if res is a list
-        self.assertEqual(np.array(res).ndim, 3)  # Check if res is a 2D array
-        # Add more specific assertions based on expected output
-        # For example, you might want to assert the shape or properties of the output image
+        self.assertEqual(res_np.ndim, 3)  # Check if res is a 3D array
+        self.assertEqual(res_np.shape, rgb_target.shape)
+        self.assertGreaterEqual(matching_degree(res_np, real_image), 0.85)
 
         # Plotting the result (uncomment if needed)
-        # fig, axs = plt.subplots(1, 1)
-        # axs.imshow(cv2.cvtColor(np.array(res), cv2.COLOR_RGB2BGR))
-        # axs.set_title("Result Image")
-        # axs.axis("off")
-        # plt.show()
+        fig, axs = plt.subplots(1, 1)
+        axs.imshow(cv2.cvtColor(res_np, cv2.COLOR_RGB2BGR))
+        axs.set_title("Result Image")
+        axs.axis("off")
+        plt.show()
 
 
 class TestMLFunctions(unittest.TestCase):
