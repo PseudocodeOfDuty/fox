@@ -252,15 +252,9 @@ def submit_fox_attempt(team_id):
     message, image_carrier = init_fox(team_id)
     ed_init = time.time()  
     print(f"Init run in {ed_init-st_init} seconds")  
-    riddle_idx = 0
-    for riddle_id, solver in riddle_solvers.items():
+    first_3riddles = riddle_solvers[:3]
+    for riddle_id, solver in first_3riddles.items():
         riddle_st = time.time()
-        if riddle_idx==3:
-            msg_st = time.time()
-            generate_message_array(message, image_carrier)
-            msg_ed = time.time()
-            print(f"Sent msgs in {msg_ed-msg_st} seconds") 
-        riddle_idx += 1
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id in show_testcase_riddles:
             print(f"Riddle {riddle_id}: {testcase}")
@@ -268,16 +262,9 @@ def submit_fox_attempt(team_id):
             continue
         else:
             try:
-                if riddle_id == "cv_hard":
-                    solution = solver(
-                        testcase, loaded_processor_cv_hard, loaded_model_cv_hard
-                    )
-                elif riddle_id == "ml_medium":
-                    solution = solver(testcase, loaded_model_ml_medium)
-                else:
-                    solution = solver(testcase)
+                solution = solver(testcase)
             except Exception as e:
-                print("Error parsing response in send message:", e)
+                print(f"Error solving riddle {riddle_id}:", e)
                 continue
             if riddle_id in show_reponse_riddles:
                 print(f"Riddle {riddle_id}: {solution}")
@@ -285,10 +272,11 @@ def submit_fox_attempt(team_id):
             print(f"Response {riddle_id}: {response}")
             riddle_ed = time.time()
             print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
-    st_end = time.time()
-    end_fox(team_id)
-    ed_end = time.time()  
-    print(f"End run in {ed_end-st_end} seconds")  
+    #Call API RIDDLE SOLVER
+    msg_st = time.time()
+    generate_message_array(message, image_carrier)
+    msg_ed = time.time()
+    print(f"Sent msgs in {msg_ed-msg_st} seconds") 
 
 total_st = time.time()
 submit_fox_attempt(TEAM_ID)
