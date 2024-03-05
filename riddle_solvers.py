@@ -191,5 +191,5 @@ riddle_solvers = {
     "sec_hard": solve_sec_hard,
     "cv_hard": solve_cv_hard,
     "cv_easy": solve_cv_easy,
-    "cv_medium": solve_cv_medium,
+    # "cv_medium": solve_cv_medium,
 }
