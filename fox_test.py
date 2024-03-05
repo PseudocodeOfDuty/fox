@@ -15,8 +15,8 @@ rgb_target = cv2.imread("./riddles/cv/medium/large.png")
 input_data = (list(rgb_target), list(rgb_template))
 
 
-st = time.time()
+total_st = time.time()
 solution = solve_cv_medium(input_data)
-ed = time.time()
-print(f"took {ed-st} sec")
+total_ed = time.time()
+print(f"took {total_ed-total_st} sec")
 solve_riddle(TEAM_ID,solution)

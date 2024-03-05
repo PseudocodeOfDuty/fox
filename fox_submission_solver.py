@@ -2,7 +2,7 @@ import requests
 from fox_data.fox_helper_functions import *
 from fox_data.fox_classes import *
 from fox_data.fox_models_load import *
-from riddle_solvers import riddle_solvers
+from riddle_solvers import riddle_solvers,show_testcase_riddles,show_reponse_riddles
 import random
 import time
 import numpy as np
@@ -248,23 +248,26 @@ def submit_fox_attempt(team_id):
             2.b. You cannot send 3 E(Empty) messages, there should be atleast R(Real)/F(Fake)
         3. Refer To the documentation to know more about the API handling
     """
+    st_init = time.time()
     message, image_carrier = init_fox(team_id)
+    ed_init = time.time()  
+    print(f"Init run in {ed_init-st_init} seconds")  
     riddle_idx = 0
     for riddle_id, solver in riddle_solvers.items():
+        riddle_st = time.time()
         if riddle_idx==3:
-            st = time.time()
+            msg_st = time.time()
             generate_message_array(message, image_carrier)
-            ed = time.time()
-            print(f"Sent msgs in {ed-st} seconds") 
+            msg_ed = time.time()
+            print(f"Sent msgs in {msg_ed-msg_st} seconds") 
         riddle_idx += 1
         testcase = get_riddle(team_id, riddle_id)
-        if riddle_id=="ml_medium":
+        if riddle_id in show_testcase_riddles:
             print(f"Riddle {riddle_id}: {testcase}")
         if testcase is None:
             continue
         else:
             try:
-                st = time.time()
                 if riddle_id == "cv_hard":
                     solution = solver(
                         testcase, loaded_processor_cv_hard, loaded_model_cv_hard
@@ -273,19 +276,22 @@ def submit_fox_attempt(team_id):
                     solution = solver(testcase, loaded_model_ml_medium)
                 else:
                     solution = solver(testcase)
-                ed = time.time()
-                print(f"Solved {riddle_id} in {ed-st} seconds")
             except Exception as e:
                 print("Error parsing response in send message:", e)
                 continue
-            if riddle_id=="ml_medium" or riddle_id=="cv_hard":
+            if riddle_id in show_reponse_riddles:
                 print(f"Riddle {riddle_id}: {solution}")
             response = solve_riddle(team_id, solution)
             print(f"Response {riddle_id}: {response}")
+            riddle_ed = time.time()
+            print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
+    st_end = time.time()
     end_fox(team_id)
+    ed_end = time.time()  
+    print(f"Init run in {ed_end-st_end} seconds")  
 
-st = time.time()
+total_st = time.time()
 submit_fox_attempt(TEAM_ID)
-ed = time.time()
-print(f"Total: {ed-st}s")
+total_ed = time.time()
+print(f"Total Time: {total_ed-total_st} seconds")
 # end_fox(TEAM_ID)
