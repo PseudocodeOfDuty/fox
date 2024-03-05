@@ -24,8 +24,6 @@ class TestCVFunctions(unittest.TestCase):
         ed = time.time()
         print(f"test_solve_cv_easy time: {ed-st}")
         self.assertEqual(res, [0, 11, 7, 1, 8, 9, 3, 5, 6, 4, 10, 2])
-        print(type(res))
-        print(type(res[0]))
         try:
             json.dumps(res)
         except Exception as e:
@@ -62,10 +60,11 @@ class TestCVFunctions(unittest.TestCase):
         # plt.show()
 
     def test_solve_cv_hard(self):
-        img = Image.open("./riddles/cv/hard/images/cats.jpeg")
+        img = Image.open("./riddles/cv/hard/images/img11.jpg")
         img_np = np.array(img)
-
-        input_data = ("How many dogs are in the image", img_np.tolist())
+        # How many dogs are in the image
+        # there
+        input_data = ("How many birds are in the image?", img_np.tolist())
 
         st = time.time()
         res = solve_cv_hard(input_data, loaded_processor_cv_hard, loaded_model_cv_hard)
