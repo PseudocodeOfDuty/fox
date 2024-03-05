@@ -193,6 +193,7 @@ def send_message(team_id, messages, message_entities):
 
 
 def end_fox(team_id):
+    st_end = time.time()
     """
     Use this function to call the api end point of ending the fox game.
     Note that:
@@ -226,6 +227,8 @@ def end_fox(team_id):
         # Print an error message if the request was not successful
         print("Error:", response.status_code)
         return None
+    ed_end = time.time()  
+    print(f"End run in {ed_end-st_end} seconds")    
     pass
 
 
@@ -253,33 +256,9 @@ def submit_fox_attempt(team_id):
     ed_init = time.time()  
     print(f"Init run in {ed_init-st_init} seconds")  
     first_3riddles = riddle_solvers[:3]
-    for riddle_id, solver in first_3riddles.items():
-        riddle_st = time.time()
-        testcase = get_riddle(team_id, riddle_id)
-        if riddle_id in show_testcase_riddles:
-            print(f"Riddle {riddle_id}: {testcase}")
-        if testcase is None:
-            continue
-        else:
-            try:
-                solution = solver(testcase)
-            except Exception as e:
-                print(f"Error solving riddle {riddle_id}:", e)
-                continue
-            if riddle_id in show_reponse_riddles:
-                print(f"Riddle {riddle_id}: {solution}")
-            response = solve_riddle(team_id, solution)
-            print(f"Response {riddle_id}: {response}")
-            riddle_ed = time.time()
-            print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
+    riddles_exec(first_3riddles)
     #Call API RIDDLE SOLVER
     msg_st = time.time()
     generate_message_array(message, image_carrier)
     msg_ed = time.time()
     print(f"Sent msgs in {msg_ed-msg_st} seconds") 
-
-total_st = time.time()
-submit_fox_attempt(TEAM_ID)
-total_ed = time.time()
-print(f"Total Time: {total_ed-total_st} seconds")
-# end_fox(TEAM_ID)
