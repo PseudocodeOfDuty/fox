@@ -1,23 +1,25 @@
 import pandas as pd
-from statsmodels.tsa.arima.model import ARIMA
-import joblib
+from statsmodels.tsa.holtwinters import SimpleExpSmoothing
 
 
 class ml_easy:
 
-    # Forecast future values
-    def forecast_future_values(self, model, new_data, forecast_steps=50):
-        # Convert 'timestamp' to datetime format
-        new_data["timestamp"] = pd.to_datetime(new_data["timestamp"])
+    def train_and_forecast(time_series_data, forecast_steps=50):
+        try:
+            # Use only the 'visits' column for simplicity
+            data = time_series_data['visits']
 
-        # Set 'timestamp' as the index
-        new_data.set_index("timestamp", inplace=True)
+            # Fit Simple Exponential Smoothing model
+            model = SimpleExpSmoothing(data)
+            fit_model = model.fit()
 
-        # Forecast future periods
-        forecast = model.get_forecast(steps=forecast_steps, exog=new_data)
-        forecast_values = list(forecast.predicted_mean.round(2))
+            # Predict the next 50 days using the loaded model
+            predictions = fit_model.forecast(steps=forecast_steps).round(2).tolist()  # Round to two decimal places and convert to list
 
-        return forecast_values
+            return predictions
+        except Exception as e:
+            print(f"Error training and forecasting: {e}")
+            return None
 
     def solve(self, data: pd.DataFrame, loaded_model):
 

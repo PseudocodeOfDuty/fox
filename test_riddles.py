@@ -87,7 +87,7 @@ class TestMLFunctions(unittest.TestCase):
         input_data = pd.read_csv("riddles/ml/series_data.csv")
 
         st = time.time()
-        res = solve_ml_easy(input_data, loaded_model_ml_easy)
+        res = solve_ml_easy(input_data)
         ed = time.time()
         print(f"test_solve_ml_easy time: {ed-st}")
 

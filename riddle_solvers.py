@@ -71,7 +71,7 @@ def solve_cv_hard(input: tuple, loaded_processor, loaded_model) -> int:
     return res
 
 
-def solve_ml_easy(input: pd.DataFrame, loaded_model) -> list:
+def solve_ml_easy(input: pd.DataFrame) -> list:
     data = pd.DataFrame(input)
 
     """
@@ -84,7 +84,7 @@ def solve_ml_easy(input: pd.DataFrame, loaded_model) -> list:
     list: A list of floats representing the output of the function.
     """
     solver = ml_easy()
-    return solver.solve(data, loaded_model)
+    return solver.solve(data)
 
 
 def solve_ml_medium(input: list, loaded_model) -> int:
