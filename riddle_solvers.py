@@ -190,7 +190,7 @@ riddle_solvers = {
     "sec_medium_stegano": solve_sec_medium,
     "sec_hard": solve_sec_hard,
     "cv_easy": solve_cv_easy,
-    # "cv_medium": solve_cv_medium,
+    "cv_medium": solve_cv_medium,
     "cv_hard": solve_cv_hard
 }
 
