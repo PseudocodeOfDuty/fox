@@ -255,8 +255,8 @@ def submit_fox_attempt(team_id):
             st = time.time()
             generate_message_array(message, image_carrier)
             ed = time.time()
+            print(f"Sent msgs in {ed-st} seconds") 
         riddle_idx += 1
-        print(f"Sent msgs in {ed-st} seconds") 
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id=="ml_easy" or riddle_id=="ml_medium":
             print(f"Riddle {riddle_id}: {testcase}")
@@ -274,15 +274,15 @@ def submit_fox_attempt(team_id):
                 else:
                     solution = solver(testcase)
                 ed = time.time()
+                print(f"Solved {riddle_id} in {ed-st} seconds")
             except Exception as e:
                 print("Error parsing response in send message:", e)
                 continue
             if riddle_id=="ml_easy" or riddle_id=="ml_medium":
                 print(f"Riddle {riddle_id}: {solution}")
-            print(f"Solved {riddle_id} in {ed-st} seconds")
             response = solve_riddle(team_id, solution)
             print(f"Response {riddle_id}: {response}")
     end_fox(team_id)
 
-# submit_fox_attempt(TEAM_ID)
+submit_fox_attempt(TEAM_ID)
 # end_fox(TEAM_ID)
