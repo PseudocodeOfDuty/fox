@@ -249,15 +249,22 @@ def submit_fox_attempt(team_id):
         3. Refer To the documentation to know more about the API handling
     """
     message, image_carrier = init_fox(team_id)
+    riddle_idx = 0
     for riddle_id, solver in riddle_solvers.items():
+        if riddle_idx==3:
+            st = time.time()
+            generate_message_array(message, image_carrier)
+            ed = time.time()
+        riddle_idx += 1
+        print(f"Sent msgs in {ed-st} seconds") 
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id=="ml_easy" or riddle_id=="ml_medium":
             print(f"Riddle {riddle_id}: {testcase}")
         if testcase is None:
             continue
         else:
-            st = time.time()
             try:
+                st = time.time()
                 if riddle_id == "cv_hard":
                     solution = solver(
                         testcase, loaded_processor_cv_hard, loaded_model_cv_hard
@@ -266,21 +273,16 @@ def submit_fox_attempt(team_id):
                     solution = solver(testcase, loaded_model_ml_medium)
                 else:
                     solution = solver(testcase)
+                ed = time.time()
             except Exception as e:
                 print("Error parsing response in send message:", e)
-                return None
-            ed = time.time()
+                continue
             if riddle_id=="ml_easy" or riddle_id=="ml_medium":
                 print(f"Riddle {riddle_id}: {solution}")
             print(f"Solved {riddle_id} in {ed-st} seconds")
             response = solve_riddle(team_id, solution)
             print(f"Response {riddle_id}: {response}")
-    st = time.time()
-    generate_message_array(message, image_carrier)
-    ed = time.time()
-    print(f"Sent msgs in {ed-st} seconds")  # 1.2s
     end_fox(team_id)
-
 
 # submit_fox_attempt(TEAM_ID)
 # end_fox(TEAM_ID)

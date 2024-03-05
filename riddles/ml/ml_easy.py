@@ -4,7 +4,7 @@ from statsmodels.tsa.holtwinters import SimpleExpSmoothing
 
 class ml_easy:
 
-    def train_and_forecast(time_series_data, forecast_steps=50):
+    def train_and_forecast(self,time_series_data, forecast_steps=50):
         try:
             # Use only the 'visits' column for simplicity
             data = time_series_data['visits']
@@ -21,9 +21,7 @@ class ml_easy:
             print(f"Error training and forecasting: {e}")
             return None
 
-    def solve(self, data: pd.DataFrame, loaded_model):
-
+    def solve(self, data: pd.DataFrame):
         # Forecast future values using the loaded model and test data
-        forecast_values = self.forecast_future_values(loaded_model, data)
-
+        forecast_values = self.train_and_forecast(data)
         return forecast_values
