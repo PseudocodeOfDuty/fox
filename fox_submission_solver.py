@@ -288,7 +288,7 @@ def submit_fox_attempt(team_id):
     st_end = time.time()
     end_fox(team_id)
     ed_end = time.time()  
-    print(f"Init run in {ed_end-st_end} seconds")  
+    print(f"End run in {ed_end-st_end} seconds")  
 
 total_st = time.time()
 submit_fox_attempt(TEAM_ID)
