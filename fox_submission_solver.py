@@ -7,6 +7,7 @@ import random
 import time
 import numpy as np
 import configparser
+import json
 
 CONFIG_PATH = "fox_config.ini"
 
@@ -193,6 +194,7 @@ def send_message(team_id, messages, message_entities):
 
 
 def end_fox(team_id):
+    st_end = time.time()
     """
     Use this function to call the api end point of ending the fox game.
     Note that:
@@ -226,7 +228,8 @@ def end_fox(team_id):
         # Print an error message if the request was not successful
         print("Error:", response.status_code)
         return None
-    pass
+    ed_end = time.time()  
+    print(f"End run in {ed_end-st_end} seconds")  
 
 
 def submit_fox_attempt(team_id):
@@ -263,21 +266,25 @@ def submit_fox_attempt(team_id):
         riddle_idx += 1
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id in show_testcase_riddles:
-            print(f"Riddle {riddle_id}: {testcase}")
+            # print(f"Riddle {riddle_id}: {testcase}")
+            try:
+                filename = f"{riddle_id}_testcase.json"
+                with open(filename, "w") as file:
+                    json.dump(testcase, file)
+            except:
+                print(f"Error in printing {riddle_id}")
         if testcase is None:
             continue
         else:
             try:
                 if riddle_id == "cv_hard":
-                    solution = solver(
-                        testcase, loaded_processor_cv_hard, loaded_model_cv_hard
-                    )
+                    solution = solver(testcase, loaded_processor_cv_hard, loaded_model_cv_hard)
                 elif riddle_id == "ml_medium":
                     solution = solver(testcase, loaded_model_ml_medium)
                 else:
                     solution = solver(testcase)
             except Exception as e:
-                print("Error parsing response in send message:", e)
+                print("Error in solver:", e)
                 continue
             if riddle_id in show_reponse_riddles:
                 print(f"Riddle {riddle_id}: {solution}")
@@ -285,13 +292,10 @@ def submit_fox_attempt(team_id):
             print(f"Response {riddle_id}: {response}")
             riddle_ed = time.time()
             print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
-    st_end = time.time()
     end_fox(team_id)
-    ed_end = time.time()  
-    print(f"End run in {ed_end-st_end} seconds")  
+
 
 total_st = time.time()
 submit_fox_attempt(TEAM_ID)
 total_ed = time.time()
 print(f"Total Time: {total_ed-total_st} seconds")
-# end_fox(TEAM_ID)
