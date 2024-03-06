@@ -6,7 +6,7 @@ class EagleScore:
     
     @staticmethod
     def calc_alpha(f_dodged,infakes,r_missed=0,inreals=1):
-        return f_dodged/infakes - r_missed/inreals
+        return f_dodged/infakes - r_missed/inreals if infakes else 0
     
     @staticmethod
     def calc_jaccard(true_msg, test_msg):
