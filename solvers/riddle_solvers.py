@@ -16,6 +16,7 @@ import pandas as pd
 
 def solve_cv_easy(test_case: tuple) -> list:
     shredded_image, shred_width = test_case
+    shredded_image = np.array(shredded_image)
     r = R()
     return r.solve(shredded_image, shred_width)
 
@@ -30,12 +31,11 @@ def solve_cv_medium(input: tuple) -> list:
 
 
 def solve_cv_hard(input: tuple, loaded_processor, loaded_model) -> int:
-    # extracted_question, image = input
-    # image = np.array(image)
-    # solver = cv_hard()
-    # res = solver.solve(image, extracted_question, loaded_processor, loaded_model)
-    # return res
-    return 2
+    extracted_question, image = input
+    image = np.array(image)
+    solver = cv_hard()
+    res = solver.solve(image, extracted_question, loaded_processor, loaded_model)
+    return res
 
 
 def solve_ml_easy(input: pd.DataFrame) -> list:
@@ -78,36 +78,25 @@ def solve_problem_solving_hard(input: tuple) -> int:
     solver = Hard()
     return solver.paths(input[0], input[1])
 
-
 riddle_solvers = {
     "problem_solving_easy": solve_problem_solving_easy,
     "problem_solving_medium": solve_problem_solving_medium,
     "problem_solving_hard": solve_problem_solving_hard,
     "ml_easy": solve_ml_easy,
     "ml_medium": solve_ml_medium,
-    "sec_medium_stegano": solve_sec_medium,
-    "sec_hard": solve_sec_hard,
-    "cv_easy": solve_cv_easy,
+    # "sec_hard": solve_sec_hard,
+    "cv_hard": solve_cv_hard,
+    # "sec_medium_stegano": solve_sec_medium,
+    # "cv_easy": solve_cv_easy,
     # "cv_medium": solve_cv_medium,
-    "cv_hard": solve_cv_hard
-}
-
-mp_riddle_solvers = {
-    "problem_solving_easy": solve_problem_solving_easy,
-    "problem_solving_medium": solve_problem_solving_medium,
-    "problem_solving_hard": solve_problem_solving_hard,
-    "ml_easy": solve_ml_easy,
-    "ml_medium": solve_ml_medium,
-    "sec_medium_stegano": solve_sec_medium,
-    "sec_hard": solve_sec_hard,
-    "cv_easy": solve_cv_easy,
-    # "cv_medium": solve_cv_medium,
-    "cv_hard": solve_cv_hard
 }
 
 save_testcase_riddles = [
     "cv_hard",
+    "ml_medium"
 ]
 
-save_response_riddles = [
+show_response_riddles = [
+    "cv_hard",
+    "ml_medium"
 ]

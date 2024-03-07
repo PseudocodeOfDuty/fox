@@ -42,7 +42,7 @@ def init_fox(team_id):
         print("Error in init:", response.status_code)
         return None
 
-def generate_message_array(real_msg, image_carrier,decoder=False):
+def generate_message_array(real_msg, image_carrier,decoder=True):
     st_msg = time.time()
     fsp = FoxStrategyPicker(real_msg,image_carrier)
     msgs = fsp.msgs
@@ -139,6 +139,7 @@ def mp_submit_fox_attempt(team_id):
     print("Calling riddles process")
     t1.start()
     generate_message_array(message, image_carrier)
+    time.sleep(25)
     print("Waiting for riddles process")
     t1.join()
     end_fox(team_id)
