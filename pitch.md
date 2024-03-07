@@ -1,5 +1,6 @@
 # Pseudocode of duty
-slides link: 
+slides link:  
+https://www.canva.com/design/DAF-xEufCEw/tHgyN8cpqTHkq2i5hx6lSw/edit
 # table of content
 - [welcome](#welcome)
     - [hellooooo everyone & acknowledgment](#hello)
