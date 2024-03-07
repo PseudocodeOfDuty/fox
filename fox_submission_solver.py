@@ -22,6 +22,7 @@ CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 
 
 def init_fox(team_id):
+    st_init = time.time()
     payload = {"teamId": team_id}
     response = requests.post(
         API + "/fox/start", json=payload, headers={"content-type": "application/json"}
@@ -33,6 +34,8 @@ def init_fox(team_id):
             image_carrier = np.array(response_json["carrier_image"])
             # print(f"msg: {message}")
             # print(f"carrier {image_carrier}")
+            ed_init = time.time()  
+            print(f"Init run in {ed_init-st_init} seconds")  
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
@@ -157,26 +160,23 @@ def end_fox(team_id):
         print("Error:", response.status_code)
         return None
     ed_end = time.time()  
+
     print(f"End run in {ed_end-st_end} seconds")  
 
 
 def submit_fox_attempt(team_id):
-    st_init = time.time()
     message, image_carrier = init_fox(team_id)
-    ed_init = time.time()  
-    print(f"Init run in {ed_init-st_init} seconds")  
     riddle_idx = 0
     for riddle_id, solver in riddle_solvers.items():
         riddle_st = time.time()
-        if riddle_idx==3:
+        if riddle_idx==3:  
             msg_st = time.time()
             generate_message_array(message, image_carrier)
             msg_ed = time.time()
             print(f"Sent msgs in {msg_ed-msg_st} seconds") 
-        riddle_idx += 1
+        riddle_idx += 1   
         testcase = get_riddle(team_id, riddle_id)
-        if riddle_id in show_testcase_riddles:
-            # print(f"Riddle {riddle_id}: {testcase}")
+        if riddle_id in save_testcase_riddles:
             try:
                 filename = f"{riddle_id}_testcase.json"
                 with open(filename, "w") as file:
