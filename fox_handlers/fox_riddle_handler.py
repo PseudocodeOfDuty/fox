@@ -70,7 +70,12 @@ def riddles_exec(team_id, riddles_list):
             continue
         else:
             try:
-                solution = solver(testcase)
+                if riddle_id == "cv_hard":
+                    solution = solver(testcase, loaded_processor_cv_hard, loaded_model_cv_hard)
+                elif riddle_id == "ml_medium":
+                    solution = solver(testcase, loaded_model_ml_medium)
+                else:
+                    solution = solver(testcase)
             except Exception as e:
                 print(f"Error solving riddle {riddle_id}:", e)
                 continue
