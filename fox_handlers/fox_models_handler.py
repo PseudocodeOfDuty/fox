@@ -3,10 +3,12 @@ import joblib
 import os
 
 if os.name == "nt":
-    ML_MID_MODEL = "riddles/ml/AdaBoostModel_win.joblib"
+    # ML_MID_MODEL = "riddles/ml/AdaBoostModel_win.joblib"
+    ML_MID_MODEL = "riddles/ml/KNNModel.joblib"
     CV_HARD_MODEL = "riddles/cv/hard/vqa_processor_win.joblib"
 elif os.name == "posix":
-    ML_MID_MODEL = "riddles/ml/AdaBoostModel_linux.joblib"
+    # ML_MID_MODEL = "riddles/ml/AdaBoostModel_linux.joblib"
+    ML_MID_MODEL = "riddles/ml/KNNModel.joblib"
     CV_HARD_MODEL = "riddles/cv/hard/vqa_processor_linux.joblib"
 else:
     raise ValueError("Unsupported operating system")
