@@ -1,13 +1,21 @@
 import requests
-from fox_data.fox_helper_functions import *
-from fox_data.fox_classes import *
-from fox_data.fox_models_load import *
+from fox_handlers.fox_riddle_handler import *
+from fox_handlers.fox_messaging_handler import *
+from fox_handlers.fox_models_handler import *
 from riddle_solvers import riddle_solvers
-import random
+from fox_handlers.fox_strategy_handler import FoxStrategyPicker
 import time
 import numpy as np
 import configparser
-import requests
+
+CONFIG_PATH = "fox_config.ini"
+
+config = configparser.ConfigParser()
+config.read(CONFIG_PATH)
+
+API = config["DEFAULT"]["API"]
+TEAM_ID = config["DEFAULT"]["TEAM_ID"]
+CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 import threading
 
 
@@ -48,40 +56,19 @@ def init_fox(team_id):
         print("Error in init:", response.status_code)
         return None
 
-
-def generate_message_array(real_msg, image_carrier):
-    msg_st = time.time()
-    reals = split_encode(real_msg, image_carrier, REAL_CHUNKS_COUNT)
-    fakes = split_encode(FAKE_MSG, image_carrier, FAKE_CHUNKS_COUNT)
-
-    reals_loc = random.sample(range(CHANNELS_COUNT), REAL_CHUNKS_COUNT)
-
-    msgs = [[None for _ in range(CHANNELS_COUNT)] for _ in range(PROTOCOL_LENGTH)]
-
-    for i in range(PROTOCOL_LENGTH):
-        msgs[i][reals_loc[i]] = EncodedMSG(reals[i], Entity.REAL)
-
-    fake_filling_i = 0
-
-    for i in range(PROTOCOL_LENGTH):
-        for j in range(CHANNELS_COUNT):
-            if msgs[i][j] == None:
-                msgs[i][j] = EncodedMSG(fakes[fake_filling_i], Entity.FAKE)
-                fake_filling_i += 1
-
-    assert fake_filling_i == FAKE_CHUNKS_COUNT
-
-    for i in range(PROTOCOL_LENGTH):
+def generate_message_array(real_msg, image_carrier,decoder=True):
+    fsp = FoxStrategyPicker(real_msg,image_carrier)
+    msgs = fsp.msgs
+    for i in range(fsp.protocol_length):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
-        # print([decode(np.array(m)) for m in msgs_channel])
-        # print(entities_channel)
+        if decoder:
+            print([decode(np.array(m)) for m in msgs_channel])
+            print(entities_channel)   
         while True:
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
             if status == "success":
                 break
-    msg_ed = time.time()
-    print(f"Sent msgs in {msg_ed-msg_st} seconds") 
 
 
 def send_message(team_id, messages, message_entities):

@@ -67,16 +67,12 @@ class Reconstructor:
 
     def __get_order(self):
         left_to_right = [self.NEG_INF] * self.chunks_count
-        count = 0
         self.__remove_first_col()
         while not self.__reached_final_order(left_to_right):
             max_row, max_col = self.__get_best_pair()
             # print(f"pair: {max_row},{max_col}")
             left_to_right[max_row] = max_col
-            if count == 20:
-                break
-            else:
-                count += 1
+
         res = [int(0)]
         next_piece_idx = 0
         while left_to_right[next_piece_idx] != self.NEG_INF:
