@@ -2,7 +2,6 @@ from flask import Flask
 from flask_cors import CORS 
 from fox_data.fox_models_load import *
 from fox_submission_solver import riddle_solvers,riddles_exec,TEAM_ID,end_fox
-import time
 
 
 app = Flask(__name__)

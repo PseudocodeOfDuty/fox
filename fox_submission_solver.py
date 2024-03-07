@@ -28,6 +28,7 @@ def init_fox(team_id):
     If a sucessful response is returned, you will recive back the message that you can break into chunkcs
     and the carrier image that you will encode the chunk in it.
     """
+    st_init = time.time()
     payload = {"teamId": team_id}
     response = requests.post(
         API + "/fox/start", json=payload, headers={"content-type": "application/json"}
@@ -39,6 +40,8 @@ def init_fox(team_id):
             image_carrier = np.array(response_json["carrier_image"])
             # print(f"msg: {message}")
             # print(f"carrier {image_carrier}")
+            ed_init = time.time()  
+            print(f"Init run in {ed_init-st_init} seconds")  
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
@@ -56,7 +59,7 @@ def generate_message_array(real_msg, image_carrier):
         3. Decide what 3 chuncks you will send in each turn in the 3 channels & what is their entities (F,R,E)
         4. Encode each chunck in the image carrier
     """
-
+    msg_st = time.time()
     reals = splitAndEncode(real_msg, image_carrier, REAL_CHUNKS_COUNT)
     fakes = splitAndEncode(FAKE_MSG, image_carrier, FAKE_CHUNKS_COUNT)
 
@@ -86,6 +89,8 @@ def generate_message_array(real_msg, image_carrier):
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
             if status == "success":
                 break
+    msg_ed = time.time()
+    print(f"Sent msgs in {msg_ed-msg_st} seconds") 
 
 
 def get_riddle(team_id, riddle_id):
@@ -251,14 +256,9 @@ def submit_fox_attempt(team_id):
             2.b. You cannot send 3 E(Empty) messages, there should be atleast R(Real)/F(Fake)
         3. Refer To the documentation to know more about the API handling
     """
-    st_init = time.time()
     message, image_carrier = init_fox(team_id)
-    ed_init = time.time()  
-    print(f"Init run in {ed_init-st_init} seconds")  
     first_3riddles = riddle_solvers[:3]
     riddles_exec(first_3riddles)
     #Call API RIDDLE SOLVER
-    msg_st = time.time()
     generate_message_array(message, image_carrier)
-    msg_ed = time.time()
-    print(f"Sent msgs in {msg_ed-msg_st} seconds") 
+    
