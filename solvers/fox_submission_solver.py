@@ -17,6 +17,7 @@ config.read(CONFIG_PATH)
 API = config["DEFAULT"]["API"]
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
+IS_MP = int(config["DEFAULT"]["MP"])
 
 
 def init_fox(team_id):
@@ -117,6 +118,20 @@ def end_fox(team_id):
     pass
 
 def submit_fox_attempt(team_id):
+    print("not mp")
+    st_submit = time.time()
+    message, image_carrier = init_fox(team_id)
+    first_3riddles = riddle_solvers[:3]
+    riddles_exec(first_3riddles)
+    generate_message_array(message, image_carrier)
+    last_7riddles = riddle_solvers[3:]
+    riddles_exec(TEAM_ID, last_7riddles)
+    end_fox(team_id)
+    ed_submit = time.time()
+    print(f"Total Time: {ed_submit-st_submit} seconds")
+
+def mp_submit_fox_attempt(team_id):
+    print("mp")
     st_submit = time.time()
     t1 = threading.Thread(target=call_riddle_api)
     message, image_carrier = init_fox(team_id)
@@ -131,7 +146,7 @@ def submit_fox_attempt(team_id):
     ed_submit = time.time()
     print(f"Total Time: {ed_submit-st_submit} seconds")
     
-def test_submit_fox_attempt():
+def test_mp():
     t1 = threading.Thread(target=test_call_riddle_api)
     t1.start()
     print("Done")
@@ -140,3 +155,10 @@ def test_submit_fox_attempt():
     print("just woke up")
     t1.join()
     print("response received")
+
+def exec():
+    print(IS_MP)
+    if IS_MP==1:
+        mp_submit_fox_attempt(TEAM_ID)
+    else:
+        submit_fox_attempt(TEAM_ID)
