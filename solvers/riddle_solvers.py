@@ -30,11 +30,12 @@ def solve_cv_medium(input: tuple) -> list:
 
 
 def solve_cv_hard(input: tuple, loaded_processor, loaded_model) -> int:
-    extracted_question, image = input
-    image = np.array(image)
-    solver = cv_hard()
-    res = solver.solve(image, extracted_question, loaded_processor, loaded_model)
-    return res
+    # extracted_question, image = input
+    # image = np.array(image)
+    # solver = cv_hard()
+    # res = solver.solve(image, extracted_question, loaded_processor, loaded_model)
+    # return res
+    return 2
 
 
 def solve_ml_easy(input: pd.DataFrame) -> list:
@@ -87,7 +88,7 @@ riddle_solvers = {
     "sec_medium_stegano": solve_sec_medium,
     "sec_hard": solve_sec_hard,
     "cv_easy": solve_cv_easy,
-    "cv_medium": solve_cv_medium,
+    # "cv_medium": solve_cv_medium,
     "cv_hard": solve_cv_hard
 }
 

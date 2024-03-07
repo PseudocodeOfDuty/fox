@@ -19,8 +19,10 @@ CORS(app)
 
 @app.route("/fox/solve-rest")
 def solveRest():
+    print("Riddles process started execution")
     last_7riddles = riddle_solvers[3:]
     riddles_exec(TEAM_ID, last_7riddles)
+    print("Riddles process done")
 
 @app.route("/fox/solve-rest-test")
 def solveRestTest():
