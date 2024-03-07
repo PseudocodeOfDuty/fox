@@ -19,9 +19,13 @@ TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 FAKE_MSG = config["DEFAULT"]["FAKE_MSG"]
 REAL_CHUNKS_COUNT = int(config["DEFAULT"]["REAL_CHUNKS_COUNT"])
 FAKE_CHUNKS_COUNT = int(config["DEFAULT"]["FAKE_CHUNKS_COUNT"])
+EMPTY_CHUNKS_COUNT = int(config["DEFAULT"]["EMPTY_CHUNKS_COUNT"])
 PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 
+REAL = 0
+FAKE = 1
+EMPTY = 2
 
 def init_fox(team_id):
     """
@@ -58,31 +62,23 @@ def generate_message_array(real_msg, image_carrier):
         4. Encode each chunck in the image carrier
     """
 
-    reals = splitAndEncode(real_msg, image_carrier, REAL_CHUNKS_COUNT)
-    fakes = splitAndEncode(FAKE_MSG, image_carrier, FAKE_CHUNKS_COUNT)
-
-    reals_loc = random.sample(range(CHANNELS_COUNT), REAL_CHUNKS_COUNT)
-
+    reals = split_encode(real_msg, image_carrier, REAL_CHUNKS_COUNT)
+    fakes = split_encode(FAKE_MSG, image_carrier, FAKE_CHUNKS_COUNT)
+    empty = make_empty(image_carrier)
     msgs = [[None for _ in range(CHANNELS_COUNT)] for _ in range(PROTOCOL_LENGTH)]
 
     for i in range(PROTOCOL_LENGTH):
-        msgs[i][reals_loc[i]] = EncodedMSG(reals[i], Entity.REAL)
-
-    fake_filling_i = 0
-
-    for i in range(PROTOCOL_LENGTH):
-        for j in range(CHANNELS_COUNT):
-            if msgs[i][j] == None:
-                msgs[i][j] = EncodedMSG(fakes[fake_filling_i], Entity.FAKE)
-                fake_filling_i += 1
-
-    assert fake_filling_i == FAKE_CHUNKS_COUNT
+        loc = [REAL,EMPTY,FAKE]
+        random.shuffle(loc)
+        msgs[i][loc[REAL]] = EncodedMSG(reals[i], Entity.REAL)
+        msgs[i][loc[FAKE]] = EncodedMSG(fakes[i], Entity.FAKE)
+        msgs[i][loc[EMPTY]] = EncodedMSG(empty, Entity.EMPTY)
 
     for i in range(PROTOCOL_LENGTH):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
-        # print([decode(np.array(m)) for m in msgs_channel])
-        # print(entities_channel)
+        print([decode(np.array(m)) for m in msgs_channel])
+        print(entities_channel)
         while True:
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
             if status == "success":
@@ -295,7 +291,8 @@ def submit_fox_attempt(team_id):
     end_fox(team_id)
 
 
-total_st = time.time()
-submit_fox_attempt(TEAM_ID)
-total_ed = time.time()
-print(f"Total Time: {total_ed-total_st} seconds")
+# total_st = time.time()
+# submit_fox_attempt(TEAM_ID)
+# total_ed = time.time()
+# print(f"Total Time: {total_ed-total_st} seconds")
+

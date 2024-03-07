@@ -1,6 +1,6 @@
-from LSBSteg import encode,decode
+from LSBSteg import encode
 
-def splitAndEncode(msg,img,chunks_count):
+def split_encode(msg,img,chunks_count):
     def is_last_chunk(i):
         return i==chunks_count-1
     chunk_len = len(msg) // chunks_count
@@ -13,3 +13,7 @@ def splitAndEncode(msg,img,chunks_count):
         img_copy = img.copy()
         encoded_chunks.append(encode(img_copy, msg_chunk))
     return encoded_chunks
+
+def make_empty(img):
+    img_copy = img.copy()
+    return encode(img_copy,"")
