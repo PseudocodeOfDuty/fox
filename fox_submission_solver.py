@@ -16,10 +16,6 @@ config.read(CONFIG_PATH)
 
 API = config["DEFAULT"]["API"]
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
-FAKE_MSG = config["DEFAULT"]["FAKE_MSG"]
-REAL_CHUNKS_COUNT = int(config["DEFAULT"]["REAL_CHUNKS_COUNT"])
-FAKE_CHUNKS_COUNT = int(config["DEFAULT"]["FAKE_CHUNKS_COUNT"])
-EMPTY_CHUNKS_COUNT = int(config["DEFAULT"]["EMPTY_CHUNKS_COUNT"])
 PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 
@@ -47,10 +43,8 @@ def init_fox(team_id):
 
 
 def generate_message_array(real_msg, image_carrier,decoder=True):
-    reals = split_encode(real_msg, image_carrier, REAL_CHUNKS_COUNT)
-    fakes = split_encode(FAKE_MSG, image_carrier, FAKE_CHUNKS_COUNT)
-    empty = make_empty(image_carrier)
-    msgs = FoxStrategyPicker(reals,fakes,empty)
+    fsp = FoxStrategyPicker(real_msg,image_carrier)
+    msgs = fsp.msgs
     for i in range(PROTOCOL_LENGTH):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
