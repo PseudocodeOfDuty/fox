@@ -12,6 +12,7 @@ config = configparser.ConfigParser()
 config.read(CONFIG_PATH)
 
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
+RIDDLE_CHECKPOINT = int(config["DEFAULT"]["RIDDLE_CHECKPOINT"])
 
 
 app = Flask(__name__)
@@ -21,7 +22,7 @@ CORS(app)
 @app.route("/fox/solve-rest")
 def solveRest():
     print("Riddles process started execution")
-    last_7riddles = dict(list(riddle_solvers.items())[3:])
+    last_7riddles = dict(list(riddle_solvers.items())[RIDDLE_CHECKPOINT:])
     riddles_exec(TEAM_ID, last_7riddles)
     print("Riddles process done")
     return "Done"

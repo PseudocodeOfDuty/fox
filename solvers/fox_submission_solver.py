@@ -17,6 +17,7 @@ API = config["DEFAULT"]["API"]
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 IS_MP = int(config["DEFAULT"]["MP"])
+RIDDLE_CHECKPOINT = int(config["DEFAULT"]["RIDDLE_CHECKPOINT"])
 
 
 def init_fox(team_id):
@@ -120,10 +121,10 @@ def submit_fox_attempt(team_id):
     print("not mp")
     st_submit = time.time()
     message, image_carrier = init_fox(team_id)
-    first_3riddles = dict(list(riddle_solvers.items())[:3])
+    first_3riddles = dict(list(riddle_solvers.items())[:RIDDLE_CHECKPOINT])
     riddles_exec(TEAM_ID,first_3riddles)
     generate_message_array(message, image_carrier)
-    last_7riddles = dict(list(riddle_solvers.items())[3:])
+    last_7riddles = dict(list(riddle_solvers.items())[RIDDLE_CHECKPOINT:])
     riddles_exec(TEAM_ID, last_7riddles)
     end_fox(team_id)
     ed_submit = time.time()
