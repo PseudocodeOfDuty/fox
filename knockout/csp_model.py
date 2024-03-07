@@ -1,7 +1,7 @@
 from constraint import Problem
 from functools import partial
-from fox_strategy import FoxStrategy
-from fox_csp_solution import FoxCSPSolution
+from knockout.fox_strategy_csp import FoxStrategyCSP
+from knockout.fox_solutiion_csp import FoxCSPSolution
 
 R_DOMAIN = [0,1]
 F_DOMAIN = [0,1,2,3]
@@ -23,7 +23,7 @@ def one_real_cst(*reals):
     return sum_r > 0
 
 def objective_function(values,n,t):
-    fs = FoxStrategy()
+    fs = FoxStrategyCSP()
     for i in range(n):
         fs.add_itr(values[f'{i}-r'],values[f'{i}-f'],values[f'{i}-e'])
     return fs.calc_linear_programming_score(t_fox=t,b_fox=14)

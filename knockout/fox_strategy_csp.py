@@ -1,12 +1,12 @@
 from eagle_score import EagleScore
 
-class FoxIteration:
+class FoxIterationCSP:
     def __init__(self,r,f,e):
         self.r = r
         self.f = f
         self.e = e
 
-class FoxStrategy:
+class FoxStrategyCSP:
     def __init__(self):
         self.__fs = []
         self.__len = 0
@@ -15,7 +15,7 @@ class FoxStrategy:
         self.__alpha = 0
 
     def add_itr(self,r,f,e):
-        self.__fs.append(FoxIteration(r,f,e))
+        self.__fs.append(FoxIterationCSP(r,f,e))
         self.__len += 1
         self.__fakes += f
         rf_sum = r + f

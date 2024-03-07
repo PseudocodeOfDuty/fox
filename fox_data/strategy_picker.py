@@ -12,13 +12,10 @@ CONFIG_PATH = "fox_config.ini"
 config = configparser.ConfigParser()
 config.read(CONFIG_PATH)
 
-PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 STRATEGY = int(config["DEFAULT"]["STRATEGY_INDEX"])
 FAKE_MSG = config["DEFAULT"]["FAKE_MSG"]
-REAL_CHUNKS_COUNT = int(config["DEFAULT"]["REAL_CHUNKS_COUNT"])
-FAKE_CHUNKS_COUNT = int(config["DEFAULT"]["FAKE_CHUNKS_COUNT"])
-EMPTY_CHUNKS_COUNT = int(config["DEFAULT"]["EMPTY_CHUNKS_COUNT"])
+
 
 class FoxStrategyPicker:
     MAX_FOX = 0
@@ -27,17 +24,25 @@ class FoxStrategyPicker:
     def __init__(self,real_msg,img_carrier):
         match STRATEGY:
             case self.MAX_FOX:
+                self.real_Count = 3
+                self.fake_count = 6
+                self.empty_count = 0
+                self.protocol_length = 3
                 self.__max_fox(real_msg,img_carrier)
             
             case self.OPTIMAL_FOX:
+                self.real_Count = 6
+                self.fake_count = 6
+                self.empty_count = 6
+                self.protocol_length = 6
                 self.__optimal_fox(real_msg,img_carrier)
             
     def __optimal_fox(self,real_msg,img_Carrier):
-        reals = split_encode(real_msg, img_Carrier, REAL_CHUNKS_COUNT)
-        fakes = split_encode(FAKE_MSG, img_Carrier, FAKE_CHUNKS_COUNT)
+        reals = split_encode(real_msg, img_Carrier, self.real_Count)
+        fakes = split_encode(FAKE_MSG, img_Carrier, self.fake_count)
         empty = make_empty(img_Carrier)
-        self.msgs = [[None for _ in range(CHANNELS_COUNT)] for _ in range(PROTOCOL_LENGTH)]
-        for i in range(PROTOCOL_LENGTH):
+        self.msgs = [[None for _ in range(CHANNELS_COUNT)] for _ in range(self.protocol_length)]
+        for i in range(self.protocol_length):
             loc = [REAL,EMPTY,FAKE]
             random.shuffle(loc)
             self.msgs[i][loc[REAL]] = EncodedMSG(reals[i], Entity.REAL)

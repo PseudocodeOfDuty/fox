@@ -1,4 +1,4 @@
-from csp import exec
+from knockout.csp_model import exec
         
 N = 20
 best_fcsp = None
