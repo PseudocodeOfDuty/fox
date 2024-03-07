@@ -36,4 +36,11 @@ class FoxStrategy:
     
     def calc_linear_programming_score(self,t_fox,b_fox):
         return self.calc_fox_score(t_fox,b_fox) - self.calc_eagle_superscore()
-    
+
+#Optimal
+# fs = FoxStrategy()
+# for i in range(6):
+#     fs.add_itr(1,1,1)
+# t = 6.172 + 0.42 * 6
+# print(fs.calc_fox_score(t))
+# print(fs.calc_eagle_superscore())
