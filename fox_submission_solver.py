@@ -16,7 +16,6 @@ config.read(CONFIG_PATH)
 API = config["DEFAULT"]["API"]
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
-IS_MP = int(config["DEFAULT"]["MP"])
 
 
 def init_fox(team_id):
@@ -42,8 +41,7 @@ def init_fox(team_id):
         print("Error in init:", response.status_code)
         return None
 
-def generate_message_array(real_msg, image_carrier,decoder=False):
-    st_msg = time.time()
+def generate_message_array(real_msg, image_carrier,decoder=True):
     fsp = FoxStrategyPicker(real_msg,image_carrier)
     msgs = fsp.msgs
     for i in range(fsp.protocol_length):
@@ -56,9 +54,6 @@ def generate_message_array(real_msg, image_carrier,decoder=False):
             status = send_message(TEAM_ID, msgs_channel, entities_channel)
             if status == "success":
                 break
-    ed_msg = time.time()
-    print(f"Messaging Time: {ed_msg-st_msg}")
-
 
 
 def send_message(team_id, messages, message_entities):
@@ -110,54 +105,26 @@ def end_fox(team_id):
             print("Error parsing response:", e)
             return None
     else:
-        print("Error in end:", response.status_code)
+        print("Error:", response.status_code)
         return None
     ed_end = time.time()  
     print(f"End run in {ed_end-st_end} seconds")    
     pass
 
 def submit_fox_attempt(team_id):
-    print("not mp")
-    st_submit = time.time()
-    message, image_carrier = init_fox(team_id)
-    first_3riddles = dict(list(riddle_solvers.items())[:3])
-    riddles_exec(TEAM_ID,first_3riddles)
-    generate_message_array(message, image_carrier)
-    last_7riddles = dict(list(riddle_solvers.items())[3:])
-    riddles_exec(TEAM_ID, last_7riddles)
-    end_fox(team_id)
-    ed_submit = time.time()
-    print(f"Total Time: {ed_submit-st_submit} seconds")
-
-def mp_submit_fox_attempt(team_id):
-    print("mp")
-    st_submit = time.time()
     t1 = threading.Thread(target=call_riddle_api)
     message, image_carrier = init_fox(team_id)
-    first_3riddles = dict(list(riddle_solvers.items())[:3])
+    first_3riddles = riddle_solvers[:3]
     riddles_exec(TEAM_ID,first_3riddles)
-    print("Calling riddles process")
     t1.start()
     generate_message_array(message, image_carrier)
-    print("Waiting for riddles process")
     t1.join()
     end_fox(team_id)
-    ed_submit = time.time()
-    print(f"Total Time: {ed_submit-st_submit} seconds")
     
-def test_mp():
+def test_submit_fox_attempt(team_id):
     t1 = threading.Thread(target=test_call_riddle_api)
     t1.start()
     print("Done")
     print("waiting for response")
-    time.sleep(2)
-    print("just woke up")
     t1.join()
     print("response received")
-
-def exec():
-    print(IS_MP)
-    if IS_MP==1:
-        mp_submit_fox_attempt(TEAM_ID)
-    else:
-        submit_fox_attempt(TEAM_ID)

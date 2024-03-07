@@ -1,6 +1,7 @@
 from LSBSteg import encode
 import time
 from solvers.riddle_solvers import save_response_riddles, save_testcase_riddles
+from fox_handlers.fox_models_handler import *
 import requests
 import configparser
 

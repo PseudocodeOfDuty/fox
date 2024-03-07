@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_cors import CORS
 from fox_handlers.fox_models_handler import *
-from solvers.fox_submission_solver import riddle_solvers, riddles_exec
+from solvers.riddle_solvers import mp_riddle_solvers
+from fox_submission_solver import riddles_exec
 import configparser
 import time
 
@@ -20,7 +21,7 @@ CORS(app)
 @app.route("/fox/solve-rest")
 def solveRest():
     print("Riddles process started execution")
-    last_7riddles = riddle_solvers[3:]
+    last_7riddles = dict(list(mp_riddle_solvers.items())[3:])
     riddles_exec(TEAM_ID, last_7riddles)
     print("Riddles process done")
 
