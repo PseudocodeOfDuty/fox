@@ -95,5 +95,5 @@ save_testcase_riddles = [
     "cv_hard",
 ]
 
-show_response_riddles = [
+save_response_riddles = [
 ]

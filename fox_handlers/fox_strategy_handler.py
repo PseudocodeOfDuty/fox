@@ -1,5 +1,4 @@
 from fox_handlers.fox_messaging_handler import *
-from fox_handlers.fox_riddle_handler import split_encode,make_empty
 import configparser
 import random
 
