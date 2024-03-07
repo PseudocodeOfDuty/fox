@@ -1,7 +1,16 @@
 from LSBSteg import encode
 import time
-from fox_submission_solver import show_response_riddles,show_testcase_riddles,API
+from riddle_solvers import show_response_riddles, show_testcase_riddles
 import requests
+import configparser
+
+CONFIG_PATH = "fox_config.ini"
+
+config = configparser.ConfigParser()
+config.read(CONFIG_PATH)
+
+API = config["DEFAULT"]["API"]
+TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 
 
 def get_riddle(team_id, riddle_id):
@@ -50,9 +59,10 @@ def solve_riddle(team_id, solution):
         return None
 
 
-def splitAndEncode(msg,img,chunks_count):
+def splitAndEncode(msg, img, chunks_count):
     def is_last_chunk(i):
-        return i==chunks_count-1
+        return i == chunks_count - 1
+
     chunk_len = len(msg) // chunks_count
     encoded_chunks = []
     for i in range(chunks_count):
@@ -64,7 +74,8 @@ def splitAndEncode(msg,img,chunks_count):
         encoded_chunks.append(encode(img_copy, msg_chunk))
     return encoded_chunks
 
-def riddles_exec(team_id,riddles_list):
+
+def riddles_exec(team_id, riddles_list):
     for riddle_id, solver in riddles_list.items():
         riddle_st = time.time()
         testcase = get_riddle(team_id, riddle_id)

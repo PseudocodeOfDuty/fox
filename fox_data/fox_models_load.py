@@ -1,5 +1,5 @@
-from transformers import ViltForQuestionAnswering
-import joblib
+# from transformers import ViltForQuestionAnswering
+# import joblib
 import os
 
 if os.name == "nt":
@@ -11,6 +11,6 @@ elif os.name == "posix":
 else:
     raise ValueError("Unsupported operating system")
 
-loaded_processor_cv_hard = joblib.load(CV_HARD_MODEL)
-loaded_model_cv_hard = ViltForQuestionAnswering.from_pretrained("riddles/cv/hard/vqa_model")
-loaded_model_ml_medium = joblib.load(ML_MID_MODEL)
+loaded_processor_cv_hard = "lol" # joblib.load(CV_HARD_MODEL)
+loaded_model_cv_hard = "lol" # ViltForQuestionAnswering.from_pretrained("riddles/cv/hard/vqa_model")
+loaded_model_ml_medium = "lol" # joblib.load(ML_MID_MODEL)
