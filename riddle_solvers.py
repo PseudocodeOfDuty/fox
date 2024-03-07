@@ -194,9 +194,8 @@ riddle_solvers = {
     "cv_hard": solve_cv_hard
 }
 
-show_testcase_riddles = [
+save_testcase_riddles = [
     "cv_hard",
-    "sec_medium_stegano"
 ]
 
 show_reponse_riddles = [
