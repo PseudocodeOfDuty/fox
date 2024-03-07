@@ -198,6 +198,6 @@ show_testcase_riddles = [
     "ml_medium"
 ]
 
-show_reponse_riddles = [
+show_response_riddles = [
     "ml_medium"
 ]

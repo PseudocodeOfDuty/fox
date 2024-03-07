@@ -2,7 +2,7 @@ import requests
 from fox_data.fox_helper_functions import *
 from fox_data.fox_classes import *
 from fox_data.fox_models_load import *
-from riddle_solvers import riddle_solvers,show_testcase_riddles,show_reponse_riddles
+from riddle_solvers import riddle_solvers,show_testcase_riddles,show_response_riddles
 import random
 import time
 import numpy as np
@@ -91,77 +91,6 @@ def generate_message_array(real_msg, image_carrier):
                 break
     msg_ed = time.time()
     print(f"Sent msgs in {msg_ed-msg_st} seconds") 
-
-
-def get_riddle(team_id, riddle_id):
-    """
-    In this function you will hit the api end point that requests the type of riddle you want to solve.
-    use the riddle id to request the specific riddle.
-    Note that:
-        1. Once you requested a riddle you cannot request it again per game.
-        2. Each riddle has a timeout if you didnot reply with your answer it will be considered as a wrong answer.
-        3. You cannot request several riddles at a time, so requesting a new riddle without answering the old one
-          will allow you to answer only the new riddle and you will have no access again to the old riddle.
-    """
-    payload = {"teamId": team_id, "riddleId": riddle_id}
-
-    # Send a POST request to the API endpoint
-    response = requests.post(
-        API + "/fox/get-riddle",
-        json=payload,
-        headers={"content-type": "application/json"},
-    )
-
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200 or response.status_code == 201:
-        # Parse the response JSON and extract the test case
-        try:
-            response_json = response.json()
-            test_case = response_json["test_case"]
-            return test_case
-        except Exception as e:
-            print("Error parsing response:", e)
-            return None
-    else:
-        # Print an error message if the request was not successful
-        print("Error:", response.status_code)
-        return None
-
-
-def solve_riddle(team_id, solution):
-    """
-    In this function you will solve the riddle that you have requested.
-    You will hit the API end point that submits your answer.
-    Use te riddle_solvers.py to implement the logic of each riddle.
-    """
-    payload = {"teamId": team_id, "solution": solution}
-    # Send a POST request to the API endpoint
-    try:
-        response = requests.post(
-            API + "/fox/solve-riddle",
-            json=payload,
-            headers={"content-type": "application/json"},
-        )
-    except Exception as e:
-        print(e)
-        return None
-
-    # Check if the request was successful (status code 200)
-    if response.status_code == 200 or response.status_code == 201:
-        # Parse the response JSON and extract the test case
-        try:
-            response_json = response.json()
-            budget_increase = response_json["budget_increase"]
-            total_budget = response_json["total_budget"]
-            status = response_json["status"]
-            return budget_increase, total_budget, status
-        except Exception as e:
-            print("Error parsing response:", e)
-            return None
-    else:
-        # Print an error message if the request was not successful
-        print("Error:", response.status_code)
-        return None
 
 
 def send_message(team_id, messages, message_entities):
