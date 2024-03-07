@@ -16,7 +16,6 @@ config.read(CONFIG_PATH)
 
 API = config["DEFAULT"]["API"]
 TEAM_ID = config["DEFAULT"]["TEAM_ID"]
-PROTOCOL_LENGTH = int(config["DEFAULT"]["PROTOCOL_LENGTH"])
 CHANNELS_COUNT = int(config["DEFAULT"]["CHANNELS_COUNT"])
 
 
@@ -48,16 +47,16 @@ def init_fox(team_id):
 def generate_message_array(real_msg, image_carrier,decoder=True):
     fsp = FoxStrategyPicker(real_msg,image_carrier)
     msgs = fsp.msgs
-    for i in range(PROTOCOL_LENGTH):
+    for i in range(fsp.protocol_length):
         msgs_channel = EncodedMSG.extractMSGs(msgs[i])
         entities_channel = EncodedMSG.extractEntities(msgs[i])
         if decoder:
             print([decode(np.array(m)) for m in msgs_channel])
             print(entities_channel)   
-        while True:
-            status = send_message(TEAM_ID, msgs_channel, entities_channel)
-            if status == "success":
-                break
+        # while True:
+        #     status = send_message(TEAM_ID, msgs_channel, entities_channel)
+        #     if status == "success":
+        #         break
 
 
 def get_riddle(team_id, riddle_id):

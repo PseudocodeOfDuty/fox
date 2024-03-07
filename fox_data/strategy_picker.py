@@ -48,5 +48,24 @@ class FoxStrategyPicker:
             self.msgs[i][loc[REAL]] = EncodedMSG(reals[i], Entity.REAL)
             self.msgs[i][loc[FAKE]] = EncodedMSG(fakes[i], Entity.FAKE)
             self.msgs[i][loc[EMPTY]] = EncodedMSG(empty, Entity.EMPTY)
+
+    def __max_fox(self,real_msg,img_carrier):
+        reals = split_encode(real_msg, img_carrier, self.real_Count)
+        fakes = split_encode(FAKE_MSG, img_carrier, self.fake_count)
+        reals_loc = random.sample(range(CHANNELS_COUNT), self.real_Count)
+        self.msgs = [[None for _ in range(CHANNELS_COUNT)] for _ in range(self.protocol_length)]
+        for i in range(self.protocol_length):
+            self.msgs[i][reals_loc[i]] = EncodedMSG(reals[i], Entity.REAL)
+
+        fake_filling_i = 0
+
+        for i in range(self.protocol_length):
+            for j in range(CHANNELS_COUNT):
+                if self.msgs[i][j] == None:
+                    self.msgs[i][j] = EncodedMSG(fakes[fake_filling_i], Entity.FAKE)
+                    fake_filling_i += 1
+
+        assert fake_filling_i == self.fake_count
+
         
         
