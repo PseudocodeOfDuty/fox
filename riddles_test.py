@@ -1,4 +1,4 @@
-from riddle_solvers import *
+from solvers.riddle_solvers import *
 from riddles.cv.medium.ssim_test import *
 from fox_handlers.fox_models_handler import *
 import numpy as np

@@ -1,4 +1,4 @@
-from riddle_solvers import solve_sec_medium
+from solvers.riddle_solvers import solve_sec_medium
 from PIL import Image
 import torchvision.transforms as transforms
 

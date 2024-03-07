@@ -1,4 +1,4 @@
-from fox_submission_solver import submit_fox_attempt, end_fox,test_submit_fox_attempt
+from solvers.fox_submission_solver import submit_fox_attempt, end_fox,test_submit_fox_attempt
 import configparser
 
 CONFIG_PATH = "fox_config.ini"

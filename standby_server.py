@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_cors import CORS
 from fox_handlers.fox_models_handler import *
-from fox_submission_solver import riddle_solvers, riddles_exec
+from solvers.fox_submission_solver import riddle_solvers, riddles_exec
 import configparser
 import time
 

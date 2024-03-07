@@ -2,7 +2,7 @@ import requests
 from fox_handlers.fox_riddle_handler import *
 from fox_handlers.fox_messaging_handler import *
 from fox_handlers.fox_models_handler import *
-from riddle_solvers import riddle_solvers
+from solvers.riddle_solvers import riddle_solvers
 from fox_handlers.fox_strategy_handler import FoxStrategyPicker
 import time
 import numpy as np
@@ -138,5 +138,7 @@ def test_submit_fox_attempt(team_id):
     t1.start()
     print("Done")
     print("waiting for response")
+    time.sleep(2)
+    print("just woke up")
     t1.join()
     print("response received")

@@ -1,5 +1,5 @@
 import cv2
-from fox_submission_solver import generate_message_array
+from solvers.fox_submission_solver import generate_message_array
 
 carrier_img = cv2.imread("./fox_handlers/encoded.png")
 real_msg = "psuedocodeofduty"

@@ -1,4 +1,4 @@
-from riddle_solvers import solve_sec_hard
+from solvers.riddle_solvers import solve_sec_hard
 
 
 encryption_key = "266200199BBCDFF1"

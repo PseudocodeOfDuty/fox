@@ -1,6 +1,6 @@
 from LSBSteg import encode
 import time
-from riddle_solvers import save_response_riddles, save_testcase_riddles
+from solvers.riddle_solvers import save_response_riddles, save_testcase_riddles
 import requests
 import configparser
 
