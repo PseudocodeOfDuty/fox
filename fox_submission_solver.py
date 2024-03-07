@@ -2,7 +2,7 @@ import requests
 from fox_data.fox_helper_functions import *
 from fox_data.fox_messaging_classes import *
 from fox_data.fox_models_load import *
-from riddle_solvers import riddle_solvers,show_testcase_riddles,show_reponse_riddles
+from riddle_solvers import riddle_solvers,save_testcase_riddles,show_reponse_riddles
 from fox_data.strategy_picker import FoxStrategyPicker
 import time
 import numpy as np
