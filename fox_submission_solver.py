@@ -232,6 +232,7 @@ def end_fox(team_id):
         print("Error:", response.status_code)
         return None
     ed_end = time.time()  
+
     print(f"End run in {ed_end-st_end} seconds")  
 
 

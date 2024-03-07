@@ -60,6 +60,7 @@ class TestCVFunctions(unittest.TestCase):
         # plt.show()
 
     def test_solve_cv_hard(self):
+
         img = Image.open("./riddles/cv/hard/images/img5.jpg")
         img_np = np.array(img)
         # How many dogs are in the image
