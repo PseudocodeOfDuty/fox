@@ -59,7 +59,7 @@ def solve_riddle(team_id, solution):
         return None
 
 
-def splitAndEncode(msg, img, chunks_count):
+def split_encode(msg, img, chunks_count):
     def is_last_chunk(i):
         return i == chunks_count - 1
 
@@ -95,3 +95,11 @@ def riddles_exec(team_id, riddles_list):
             print(f"Response {riddle_id}: {response}")
             riddle_ed = time.time()
             print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
+
+def call_riddle_api():
+    response = requests.get('http://127.0.0.1:5000/fox/solve-rest')
+    return response.text
+
+def test_call_riddle_api():
+    response = requests.get('http://127.0.0.1:5000/fox/solve-rest-test')
+    return response.text
