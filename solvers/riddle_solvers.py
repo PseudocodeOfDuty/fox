@@ -79,12 +79,12 @@ def solve_problem_solving_hard(input: tuple) -> int:
     return solver.paths(input[0], input[1])
 
 riddle_solvers = {
-    "problem_solving_easy": solve_problem_solving_easy,
-    "problem_solving_medium": solve_problem_solving_medium,
     "problem_solving_hard": solve_problem_solving_hard,
-    "ml_easy": solve_ml_easy,
+    "sec_hard": solve_sec_hard,
+    "problem_solving_medium": solve_problem_solving_medium,
     "ml_medium": solve_ml_medium,
-    # "sec_hard": solve_sec_hard,
+    "problem_solving_easy": solve_problem_solving_easy,
+    "ml_easy": solve_ml_easy,
     "cv_hard": solve_cv_hard,
     # "sec_medium_stegano": solve_sec_medium,
     # "cv_easy": solve_cv_easy,
