@@ -1,4 +1,4 @@
-from csp_n import exec
+from csp import exec
         
 N = 20
 best_fcsp = None

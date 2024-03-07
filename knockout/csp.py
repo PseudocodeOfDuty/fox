@@ -49,5 +49,3 @@ def exec(n,t):
             best_value = current_value
             best_solution = solution
     return FoxCSPSolution(best_solution,best_value,n)
-
-
