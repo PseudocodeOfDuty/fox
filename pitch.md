@@ -15,7 +15,7 @@
             - [easy]()
             - [medium]()
             - [hard]()
-        - [security]()
+        - [security](#sec)
             - [medium](#sec_medium)
             - [hard](#sec_hard)
         - [ML]()
@@ -40,22 +40,35 @@
 <a id="welcome"></a>
 
 ## Welcome
-- hello
-- acknowledgment 
-
+- hello   
+<font color="yellow">
+bla bla bla script
+</font>
+- acknowledgment    
+<font color="yellow">
+bla bla bla script
+</font>
 <a id="team"></a>
 
 ## team
-- who
-- team contributions
+- who   
+<font color="yellow">
+bla bla bla script
+</font>
+- team contributions   
+<font color="yellow">
+bla bla bla script
+</font>
 
 <a id="fox"></a>
 
 ## fox
+- what is steganography?
+- 
 ### Strategy
 ### Riddles
-#### problem solving
-##### easy
+### problem solving
+#### easy
 - algorithm
     - count frequency --> use map as storing data structure cause o(1) retrieve
     - heapsort --> fast and easy to get max from it
@@ -73,7 +86,7 @@
     - Text Classification:
         - Spam filtering: Analyzing the frequency of certain words in emails or messages can aid in detecting spam.
 
-##### medium
+#### medium
 - algorithm
     - uses a stack (monotonic) to decode the string. 
 - use cases
@@ -83,9 +96,20 @@
 
     - Storage Optimization: RLE can be used for data storage optimization. For example, in databases where there are repetitive patterns or sequences, RLE can be applied to reduce the storage space required.
 
-##### hard
+#### hard
+- algorithm
+    - Dynamic programming --> to count the unique paths to the right bottom corner from each cell
 
-#### security
+- use cases
+    - Robotics and Navigation:
+Imagine a robot located at the top-left corner of a grid representing a floor plan. The robot needs to reach the bottom-right corner, and it can only move right or down. The number of unique paths represents the different ways the robot can navigate through the space without colliding with obstacles.
+
+    - Network Routing:
+In networking, this problem can be analogous to finding the number of different paths for data to travel from the source to the destination. Each grid point could represent a router or a network node, and the paths represent the various routes data can take.
+
+<a id="sec"></a>
+
+### security
 
 <a id="sec_medium"></a>
 
@@ -115,14 +139,27 @@
     - Simple Exponential Smoothing (SES)
 - use cases:
     - **Forecasting** is the process of estimating future trends, outcomes, or events based on historical data, patterns, and analysis. It plays a crucial role in decision-making across various domains, helping organizations plan, allocate resources, and respond to future scenarios.
+    - **weather Forecasting**
+    - **Sales Forecasting**
+    - **Stock Price Prediction**
 
 #### medium
 - algorithm
     - Adaboost
 
-- **Binary Classification:** Adaboost is commonly used for binary classification problems. It can effectively classify data into two classes based on a set of features.
+- use cases
 
-- **Image Classification:** Adaboost can be applied to image classification tasks, where the goal is to classify images into different categories or labels.
+    - **Binary Classification:** Adaboost is commonly used for binary classification problems. It can effectively classify data into two classes based on a set of features.
+
+    - **Image Classification:** Adaboost can be applied to image classification tasks, where the goal is to classify images into different categories or labels.
 
 ### Computer Vision
 #### easy
+- algorithm
+    - calculate 2d similarity between the most right pixel column of every chunk and the most left pixel column of the remaining chunks  
+    - 
+
+- use cases
+<font color="yellow">
+This text is red!
+</font>
