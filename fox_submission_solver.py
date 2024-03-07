@@ -2,11 +2,12 @@ import requests
 from fox_data.fox_helper_functions import *
 from fox_data.fox_classes import *
 from fox_data.fox_models_load import *
-from riddle_solvers import riddle_solvers,show_testcase_riddles,show_reponse_riddles
+from riddle_solvers import riddle_solvers,save_testcase_riddles,show_reponse_riddles
 import random
 import time
 import numpy as np
 import configparser
+import json
 
 CONFIG_PATH = "fox_config.ini"
 
@@ -28,6 +29,7 @@ def init_fox(team_id):
     If a sucessful response is returned, you will recive back the message that you can break into chunkcs
     and the carrier image that you will encode the chunk in it.
     """
+    st_init = time.time()
     payload = {"teamId": team_id}
     response = requests.post(
         API + "/fox/start", json=payload, headers={"content-type": "application/json"}
@@ -39,6 +41,8 @@ def init_fox(team_id):
             image_carrier = np.array(response_json["carrier_image"])
             # print(f"msg: {message}")
             # print(f"carrier {image_carrier}")
+            ed_init = time.time()  
+            print(f"Init run in {ed_init-st_init} seconds")  
             return message, image_carrier
         except Exception as e:
             print("Error parsing response in init:", e)
@@ -228,8 +232,8 @@ def end_fox(team_id):
         print("Error:", response.status_code)
         return None
     ed_end = time.time()  
-    print(f"End run in {ed_end-st_end} seconds")    
-    pass
+
+    print(f"End run in {ed_end-st_end} seconds")  
 
 
 def submit_fox_attempt(team_id):
@@ -251,14 +255,47 @@ def submit_fox_attempt(team_id):
             2.b. You cannot send 3 E(Empty) messages, there should be atleast R(Real)/F(Fake)
         3. Refer To the documentation to know more about the API handling
     """
-    st_init = time.time()
     message, image_carrier = init_fox(team_id)
-    ed_init = time.time()  
-    print(f"Init run in {ed_init-st_init} seconds")  
-    first_3riddles = riddle_solvers[:3]
-    riddles_exec(first_3riddles)
-    #Call API RIDDLE SOLVER
-    msg_st = time.time()
-    generate_message_array(message, image_carrier)
-    msg_ed = time.time()
-    print(f"Sent msgs in {msg_ed-msg_st} seconds") 
+    riddle_idx = 0
+    for riddle_id, solver in riddle_solvers.items():
+        riddle_st = time.time()
+        if riddle_idx==3:  
+            msg_st = time.time()
+            generate_message_array(message, image_carrier)
+            msg_ed = time.time()
+            print(f"Sent msgs in {msg_ed-msg_st} seconds") 
+        riddle_idx += 1   
+        testcase = get_riddle(team_id, riddle_id)
+        if riddle_id in save_testcase_riddles:
+            try:
+                filename = f"{riddle_id}_testcase.json"
+                with open(filename, "w") as file:
+                    json.dump(testcase, file)
+            except:
+                print(f"Error in printing {riddle_id}")
+        if testcase is None:
+            continue
+        else:
+            try:
+                if riddle_id == "cv_hard":
+                    solution = solver(testcase, loaded_processor_cv_hard, loaded_model_cv_hard)
+                elif riddle_id == "ml_medium":
+                    solution = solver(testcase, loaded_model_ml_medium)
+                else:
+                    solution = solver(testcase)
+            except Exception as e:
+                print("Error in solver:", e)
+                continue
+            if riddle_id in show_reponse_riddles:
+                print(f"Riddle {riddle_id}: {solution}")
+            response = solve_riddle(team_id, solution)
+            print(f"Response {riddle_id}: {response}")
+            riddle_ed = time.time()
+            print(f"Solved {riddle_id} in {riddle_ed-riddle_st} seconds")
+    end_fox(team_id)
+
+
+total_st = time.time()
+submit_fox_attempt(TEAM_ID)
+total_ed = time.time()
+print(f"Total Time: {total_ed-total_st} seconds")

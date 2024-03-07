@@ -60,19 +60,22 @@ class TestCVFunctions(unittest.TestCase):
         # plt.show()
 
     def test_solve_cv_hard(self):
-        img = Image.open("./riddles/cv/hard/images/test3.jpg")
+
+        img = Image.open("./riddles/cv/hard/images/img5.jpg")
         img_np = np.array(img)
         # How many dogs are in the image
         # there
-        input_data = ("How many people wearing suits?", img_np.tolist())
-
+        input_data = ("How many humans are in the image?", img_np.tolist())
+        # filename = f"testcase.json"
+        # with open(filename, "w") as file:
+        #     json.dump(input_data, file)
         st = time.time()
         res = solve_cv_hard(input_data, loaded_processor_cv_hard, loaded_model_cv_hard)
         ed = time.time()
         print(f"test_solve_cv_hard time: {ed-st}")
 
         self.assertIsInstance(res, int)  # Check if res is a int
-        self.assertEqual(res, 2)
+        self.assertEqual(res, 1)
         try:
             json.dumps(res)
         except Exception as e:

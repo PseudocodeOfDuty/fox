@@ -189,15 +189,14 @@ riddle_solvers = {
     "ml_medium": solve_ml_medium,
     "sec_medium_stegano": solve_sec_medium,
     "sec_hard": solve_sec_hard,
-    "cv_hard": solve_cv_hard,
     "cv_easy": solve_cv_easy,
     "cv_medium": solve_cv_medium,
+    "cv_hard": solve_cv_hard
 }
 
-show_testcase_riddles = [
-    "ml_medium"
+save_testcase_riddles = [
+    "cv_hard",
 ]
 
 show_reponse_riddles = [
-    "ml_medium"
 ]
