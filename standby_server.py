@@ -2,7 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 from fox_handlers.fox_models_handler import *
 from solvers.riddle_solvers import mp_riddle_solvers
-from fox_submission_solver import riddles_exec
+from solvers.fox_submission_solver import riddles_exec
 import configparser
 import time
 
@@ -24,6 +24,7 @@ def solveRest():
     last_7riddles = dict(list(mp_riddle_solvers.items())[3:])
     riddles_exec(TEAM_ID, last_7riddles)
     print("Riddles process done")
+    return "Done"
 
 @app.route("/fox/solve-rest-test")
 def solveRestTest():

@@ -1,9 +1,9 @@
-from LSBSteg import encode
 import time
 from solvers.riddle_solvers import save_response_riddles, save_testcase_riddles
 from fox_handlers.fox_models_handler import *
 import requests
 import configparser
+import json
 
 CONFIG_PATH = "fox_config.ini"
 
@@ -65,7 +65,13 @@ def riddles_exec(team_id, riddles_list):
         riddle_st = time.time()
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id in save_testcase_riddles:
-            print(f"Riddle {riddle_id}: {testcase}")
+            # print(f"Riddle {riddle_id}: {testcase}")
+            try:
+                filename = f"{riddle_id}_testcase.json"
+                with open(filename, "w") as file:
+                    json.dump(testcase, file)
+            except:
+                print(f"Error in printing {riddle_id}")
         if testcase is None:
             continue
         else:
