@@ -86,17 +86,15 @@ riddle_solvers = {
     "problem_solving_easy": solve_problem_solving_easy,
     "ml_easy": solve_ml_easy,
     "cv_hard": solve_cv_hard,
-    # "sec_medium_stegano": solve_sec_medium,
+    "sec_medium_stegano": solve_sec_medium,
     # "cv_easy": solve_cv_easy,
     # "cv_medium": solve_cv_medium,
 }
 
 save_testcase_riddles = [
-    "cv_hard",
-    "ml_medium"
+
 ]
 
 show_response_riddles = [
-    "cv_hard",
-    "ml_medium"
+
 ]

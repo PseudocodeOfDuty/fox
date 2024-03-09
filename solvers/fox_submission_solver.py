@@ -135,7 +135,7 @@ def mp_submit_fox_attempt(team_id):
     st_submit = time.time()
     t1 = threading.Thread(target=call_riddle_api)
     message, image_carrier = init_fox(team_id)
-    first_3riddles = dict(list(riddle_solvers.items())[:3])
+    first_3riddles = dict(list(riddle_solvers.items())[:RIDDLE_CHECKPOINT])
     riddles_exec(TEAM_ID,first_3riddles)
     print("Calling riddles process")
     t1.start()
@@ -157,7 +157,6 @@ def test_mp():
     print("response received")
 
 def exec():
-    print(IS_MP)
     if IS_MP==1:
         mp_submit_fox_attempt(TEAM_ID)
     else:

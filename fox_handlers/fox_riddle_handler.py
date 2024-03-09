@@ -15,12 +15,14 @@ TEAM_ID = config["DEFAULT"]["TEAM_ID"]
 
 
 def get_riddle(team_id, riddle_id):
+    print(f"Requesting {riddle_id}...")
     payload = {"teamId": team_id, "riddleId": riddle_id}
     response = requests.post(
         API + "/fox/get-riddle",
         json=payload,
         headers={"content-type": "application/json"},
     )
+    print(f"Recieved {riddle_id}")
     if response.status_code == 200 or response.status_code == 201:
         try:
             response_json = response.json()
@@ -65,13 +67,8 @@ def riddles_exec(team_id, riddles_list):
         riddle_st = time.time()
         testcase = get_riddle(team_id, riddle_id)
         if riddle_id in save_testcase_riddles:
-            # print(f"Riddle {riddle_id}: {testcase}")
-            try:
-                filename = f"{riddle_id}_testcase.json"
-                with open(filename, "w") as file:
-                    json.dump(testcase, file)
-            except:
-                print(f"Error in printing {riddle_id}")
+            with open(f"{riddle_ed}_testcase", 'w') as json_file:
+                json.dump(testcase, json_file)
         if testcase is None:
             continue
         else:
