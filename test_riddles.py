@@ -1,6 +1,6 @@
-from riddle_solvers import *
+from solvers.riddle_solvers import *
 from riddles.cv.medium.ssim_test import *
-from fox_data.fox_models_load import *
+from fox_handlers.fox_models_handler import *
 import numpy as np
 import pandas as pd
 import cv2
